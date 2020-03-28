@@ -28,10 +28,6 @@ def get_args():
     params = parser.parse_args()
     params.run_script = get_run_script()
 
-    # check_args
-    # if params.debug_mode is False:
-    #     check_params(params)
-
     # tag&save
     params.tags = [e for e in params.tags.split(',')] if params.tags is not None else ['test']
 
@@ -73,7 +69,7 @@ def print_args(params):
 base_args = parser.add_argument_group('Base args')
 base_args.add_argument('--debug_mode', type=str2bool, default='1')
 base_args.add_argument('--save_path')
-base_args.add_argument('--tags')
+base_args.add_argument('--tags', type=str, default='none')
 base_args.add_argument('--project', type=str, default="DKT")
 base_args.add_argument('--name', type=str, default="name")
 base_args.add_argument('--device', type=str, default='cpu')
@@ -93,8 +89,6 @@ train_args.add_argument('--train_batch', type=int, default=64)
 train_args.add_argument('--test_batch', type=int, default=64)
 train_args.add_argument('--lr', type=float, default=0.001)
 train_args.add_argument('--seq_size', type=int, default=20)
-train_args.add_argument('--sample_rate', type=float, default=0.5)
-train_args.add_argument('--is_augmented', type=str2bool, default='1')
 train_args.add_argument('--warm_up_step_count', type=int, default=4000)
 train_args.add_argument('--num_layer', type=int, default=2)
 train_args.add_argument('--d_model', type=int, default=256)
