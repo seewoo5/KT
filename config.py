@@ -65,7 +65,7 @@ def print_args(params):
     info += '└─────────────────────────────────────────────────────\n'
     print(info)
 
-
+dataset_list = ['modified_AAAI20', 'ASSISTments2009', 'ASSISTments2015', 'STATICS']
 base_args = parser.add_argument_group('Base args')
 base_args.add_argument('--debug_mode', type=str2bool, default='1')
 base_args.add_argument('--save_path')
@@ -79,8 +79,7 @@ base_args.add_argument('--base_path', type=str, default='/shared')
 base_args.add_argument('--weight_path', type=str)
 base_args.add_argument('--weight_num', type=str)
 base_args.add_argument('--machine_name', type=str)
-base_args.add_argument('--dataset_name', type=str, default='modified_AAAI20',
-                       choices=['modified_AAAI20', 'ASSISTments2009'])
+base_args.add_argument('--dataset_name', type=str, default='modified_AAAI20', choices=dataset_list)
 
 train_args = parser.add_argument_group('Train args')
 train_args.add_argument('--random_seed', type=int, default=1)
@@ -101,11 +100,10 @@ train_args.add_argument('--eval_steps', type=int, default=5)
 train_args.add_argument('--max_grad_norm', type=float, default=20)
 
 transfer_args = parser.add_argument_group('Transfer args')
-transfer_args.add_argument('--source_dataset_name', type=str, default='modified_AAAI20',
-                           choices=['modified_AAAI20', 'ASSISTments2009'])
-transfer_args.add_argument('--target_dataset_name', type=str, default='ASSISTments2009',
-                           choices=['modified_AAAI20', 'ASSISTments2009'])
+transfer_args.add_argument('--source_dataset_name', type=str, default='modified_AAAI20', choices=dataset_list)
+transfer_args.add_argument('--target_dataset_name', type=str, default='ASSISTments2009', choices=dataset_list)
 transfer_args.add_argument('--pretrained_weight_path', type=str)
+transfer_args.add_argument('--freeze', type=str2bool, default='0')
 
 
 args = get_args()

@@ -7,11 +7,14 @@ from constant import *
 from trainer import Trainer
 import torch
 
-def load_pretrained_weight_DKT(model):
+def load_pretrained_weight_DKT(model, freeze):
     weight = torch.load(args.pretrained_weight_path, map_location=args.device)
-    for name, parm in model.named_parameters():
+    for name, param in model.named_parameters():
         if name.split('.')[0] == '_lstm':
-            parm.data.copy_(weight[name])
+            param.data.copy_(weight[name])
+            if freeze == True:
+                # freeze pre-trained weight
+                param.requires_grad = False
 
 if __name__ == '__main__':
     qid_mapper_path = f'dataset/{args.dataset_name}/content_dict.csv'
@@ -60,9 +63,7 @@ if __name__ == '__main__':
     target_data_name = args.target_dataset_name
 
     model = DKT(args.input_dim, args.hidden_dim, args.num_layers, question_num[target_data_name], args.dropout).to(args.device)
-    # load pretrained weight
-    load_pretrained_weight_DKT(model)
-    # TODO: freeze / don't freeze
+    load_pretrained_weight_DKT(model, args.freeze) # load pretrained weight
 
     trainer = Trainer(model, args.device, args.warm_up_step_count,
                       args.hidden_dim, args.num_epochs, args.weight_path,
