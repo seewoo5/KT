@@ -79,6 +79,8 @@ base_args.add_argument('--base_path', type=str, default='/shared')
 base_args.add_argument('--weight_path', type=str)
 base_args.add_argument('--weight_num', type=str)
 base_args.add_argument('--machine_name', type=str)
+base_args.add_argument('--dataset_name', type=str, default='modified_AAAI20',
+                       choices=['modified_AAAI20', 'ASSISTments2009'])
 
 train_args = parser.add_argument_group('Train args')
 train_args.add_argument('--random_seed', type=int, default=1)
@@ -91,11 +93,18 @@ train_args.add_argument('--lr', type=float, default=0.001)
 train_args.add_argument('--seq_size', type=int, default=20)
 train_args.add_argument('--warm_up_step_count', type=int, default=4000)
 train_args.add_argument('--num_layer', type=int, default=2)
-train_args.add_argument('--d_model', type=int, default=256)
+train_args.add_argument('--hidden_dim', type=int, default=256)
+train_args.add_argument('--input_dim', type=int, default=256)
 train_args.add_argument('--dropout', type=float, default=0.2)
 train_args.add_argument('--is_warm_up', type=str2bool, default='1')
 train_args.add_argument('--eval_steps', type=int, default=5)
 train_args.add_argument('--max_grad_norm', type=float, default=20)
+
+transfer_args = parser.add_argument_group('Transfer args')
+transfer_args.add_argument('--source_dataset_name', type=str, default='mofidied_AAAI20')
+transfer_args.add_argument('--target_dataset_name', type=str, default='ASSISTments2009')
+transfer_args.add_argument('--pretrained_weight_num', type=str)
+
 
 args = get_args()
 

@@ -8,7 +8,7 @@ from sklearn.metrics import roc_auc_score
 from itertools import repeat, chain, islice
 
 from config import args
-from constant import QUESTION_NUM
+# from constant import QUESTION_NUM
 from network.util_network import ScheduledOptim, NoamOpt
 
 
@@ -77,6 +77,7 @@ class Trainer:
             cur_weight = self._model.state_dict()
             torch.save(cur_weight, f'{self._weight_path}{self.step}.pt')
             self._test('Validation', val_gen)
+            print(f'Current best weight: {self.max_step}.pt')
 
     # get test results
     def test(self, weight_num):
@@ -88,6 +89,7 @@ class Trainer:
         if self.max_step != 0:
             weight_num = self.max_step
         weight_path = f'{args.weight_path}{weight_num}.pt'
+        print(f'best weight: {weight_path}')
         self._model.load_state_dict(torch.load(weight_path))
         self._test('Test', test_gen)
 

@@ -30,11 +30,9 @@ class KTDataset(Dataset):
             user_data_length = len(data)
 
         end_index, pad_counts = self.get_sequence_info(start_index, user_data_length - 1, args.seq_size)
-        paddings = [PAD_INDEX] * (pad_counts + 1) #
+        paddings = [PAD_INDEX] * (pad_counts + 1) # last response shouldn't be in the input
 
         input_list = []
-        label_list = []
-        is_predicted_list = []
 
         for idx, line in enumerate(data[start_index:end_index + 1], start=start_index):
             line = line.rstrip().split(',')
@@ -42,7 +40,6 @@ class KTDataset(Dataset):
             embed_id = self._qid_to_embed_id[question_id]
             is_correct = int(line[2] == line[3])
 
-            # label_list.append(is_correct)
             if idx == end_index:
                 last_is_correct = is_correct
                 target_id = embed_id
@@ -50,9 +47,9 @@ class KTDataset(Dataset):
                 if is_correct == 1:
                     input_list.append(embed_id)
                 else:
-                    input_list.append(embed_id + QUESTION_NUM)
+                    input_list.append(embed_id + question_num['modified_AAAI20'])
 
-        input_list += paddings
+        input_list = paddings + input_list
         assert len(input_list) == args.seq_size, "sequence size error"
 
         return {

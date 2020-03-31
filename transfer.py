@@ -6,10 +6,8 @@ from network.DKT import DKT
 from constant import *
 from trainer import Trainer
 
-
-if __name__ == '__main__':
-
-    qid_mapper_path = 'load/content_dict.csv'
+if __name == '__main__':
+    qid_mapper_path = f'dataset/{args.dataset_name}/content_dict.csv'
     qid_to_embed_id = util.get_qid_to_embed_id(qid_mapper_path)
     user_base_path = f'{args.base_path}/modified_AAAI20/response/data_tree'
 
@@ -18,10 +16,12 @@ if __name__ == '__main__':
     else:
         if args.dataset_name == 'modified_AAAI20':
             test_data_path = f'{args.base_path}/modified_AAAI20/response/new_test_user_list.csv'
+            test_sample_infos, num_of_test_user = util.get_sample_info(user_base_path, test_data_path)
+            test_data = KTDataset('test', user_base_path, test_sample_infos, qid_to_embed_id, False)
         else:
             test_data_path = f'dataset/{args.dataset_name}/test_data.csv'
-
-
+            test_sample_infos, num_of_test_user = util.get_data(test_data_path)
+            test_data = ASSISTDataset('test', test_sample_infos)
 
     # test_sample_infos, num_of_test_user = util.get_sample_info(user_base_path, test_data_path)
     test_sample_infos, num_of_test_user = util.get_data(test_data_path)
@@ -31,10 +31,11 @@ if __name__ == '__main__':
     # test_data = KTDataset('test', user_base_path, test_sample_infos, qid_to_embed_id, False)
     test_data = ASSISTDataset('test', test_sample_infos)
 
-    # TODO: input dimension may differ from hidden dimension (d_model), change to one-hot
     model = DKT(args.d_model, args.d_model, args.num_layers, QUESTION_NUM, args.dropout).to(args.device)
     weight_path = f'{args.weight_path}{args.weight_num}.pt'
     trainer = Trainer(model, args.device, args.warm_up_step_count,
                       args.d_model, args.num_epochs, args.weight_path,
                       args.lr, None, None, test_data)
     trainer.test(args.weight_num)
+
+    pass

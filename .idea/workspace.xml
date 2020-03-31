@@ -2,10 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ef0b16d-c489-481a-bdeb-35a95c8668f0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataset/ASSISTments2009/dataset_assistments.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/transfer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constant.py" beforeDir="false" afterPath="$PROJECT_DIR$/constant.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataset/modified_AAAI20/dataset_modified_AAAI20.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inference.py" beforeDir="false" afterPath="$PROJECT_DIR$/inference.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/load/content_dict.csv" beforeDir="false" afterPath="$PROJECT_DIR$/dataset/modified_AAAI20/content_dict.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/load/sample_test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/dataset/modified_AAAI20/sample_test_modified_AAAI20.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/load/sample_train.csv" beforeDir="false" afterPath="$PROJECT_DIR$/dataset/modified_AAAI20/sample_train_modified_AAAI20.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/load/sample_val.csv" beforeDir="false" afterPath="$PROJECT_DIR$/dataset/modified_AAAI20/sample_val_modified_AAAI20.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network/DKT.py" beforeDir="false" afterPath="$PROJECT_DIR$/network/DKT.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,10 +39,17 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/dataset/ASSISTments2009" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dataset/ASSISTments2009" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dataset/modified_AAAI20" />
+      <recent name="$PROJECT_DIR$/dataset/ASSISTments2009" />
       <recent name="$PROJECT_DIR$/network" />
     </key>
   </component>
@@ -47,7 +65,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.inference">
+  <component name="RunManager" selected="Python.main">
     <configuration name="inference" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="DKT_new" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -84,7 +102,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="--num_workers=16 --debug_mode=0 --gpu=0 --device=cuda --machine_name=gpu4 --num_epochs=20 --eval_steps=1000 --train_batch=2048 --test_batch=2048 --seq_size=100 --d_model=256 --name=dim_256_seq_100_eval_1000_full" />
+      <option name="PARAMETERS" value="--num_workers=16 --debug_mode=0 --gpu=0 --device=cuda --machine_name=gpu4 --num_epochs=25 --eval_steps=50 --train_batch=2048 --test_batch=2048 --seq_size=200 --input_dim=100 --hidden_dim=100 --name=modified_AAAI20_input_100_hidden_100_batch_2048 --dataset_name=modified_AAAI20" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -98,8 +116,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.inference" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.inference" />
       </list>
     </recent_temporary>
   </component>
@@ -113,7 +131,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1585310881618</updated>
-      <workItem from="1585310883272" duration="45401000" />
+      <workItem from="1585310883272" duration="60823000" />
     </task>
     <servers />
   </component>
@@ -132,6 +150,15 @@
     </option>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>65</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="output.shape" language="Python" />
@@ -145,7 +172,7 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/DKT_new$main.coverage" NAME="main Coverage Results" MODIFIED="1585401155677" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DKT_new$main.coverage" NAME="main Coverage Results" MODIFIED="1585629110923" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DKT_new$inference.coverage" NAME="inference Coverage Results" MODIFIED="1585404233255" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
