@@ -18,18 +18,14 @@ if __name__ == '__main__':
     else:
         if args.dataset_name == 'modified_AAAI20':
             test_data_path = f'{args.base_path}/modified_AAAI20/response/new_test_user_list.csv'
+            test_sample_infos, num_of_test_user = util.get_sample_info(user_base_path, test_data_path)
+            test_data = KTDataset('test', user_base_path, test_sample_infos, qid_to_embed_id, False)
         else:
             test_data_path = f'dataset/{args.dataset_name}/test_data.csv'
-
-
-
-    # test_sample_infos, num_of_test_user = util.get_sample_info(user_base_path, test_data_path)
-    test_sample_infos, num_of_test_user = util.get_data(test_data_path)
+            test_sample_infos, num_of_test_user = util.get_data(test_data_path)
+            test_data = TripleLineDataset('test', test_sample_infos)
 
     print(f'Test: # of users: {num_of_test_user}, # of samples: {len(test_sample_infos)}')
-
-    # test_data = KTDataset('test', user_base_path, test_sample_infos, qid_to_embed_id, False)
-    test_data = TripleLineDataset('test', test_sample_infos)
 
     model = DKT(args.d_model, args.d_model, args.num_layers, QUESTION_NUM, args.dropout).to(args.device)
     weight_path = f'{args.weight_path}{args.weight_num}.pt'

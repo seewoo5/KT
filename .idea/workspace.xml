@@ -3,13 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="9ef0b16d-c489-481a-bdeb-35a95c8668f0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/constant.py" beforeDir="false" afterPath="$PROJECT_DIR$/constant.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/ASSISTments2009/dataset_assistments.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/inference.py" beforeDir="false" afterPath="$PROJECT_DIR$/inference.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transfer.py" beforeDir="false" afterPath="$PROJECT_DIR$/transfer.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -149,7 +145,7 @@
       <option name="presentableId" value="Default" />
       <updated>1585310881618</updated>
       <workItem from="1585310883272" duration="62530000" />
-      <workItem from="1585632868292" duration="4346000" />
+      <workItem from="1585632868292" duration="5074000" />
     </task>
     <servers />
   </component>

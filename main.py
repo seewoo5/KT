@@ -44,9 +44,6 @@ if __name__ == '__main__':
             val_sample_infos, num_of_val_user = util.get_data(val_data_path)
             test_sample_infos, num_of_test_user = util.get_data(test_data_path)
 
-            # train_data = ASSISTDataset('train', train_sample_infos)
-            # train_data = ASSISTDataset('train', train_sample_infos)
-            # val_data = ASSISTDataset('val', val_sample_infos)
             train_data = TripleLineDataset('test', train_sample_infos, args.dataset_name)
             val_data = TripleLineDataset('val', val_sample_infos, args.dataset_name)
             test_data = TripleLineDataset('test', test_sample_infos, args.dataset_name)
