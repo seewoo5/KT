@@ -101,9 +101,11 @@ train_args.add_argument('--eval_steps', type=int, default=5)
 train_args.add_argument('--max_grad_norm', type=float, default=20)
 
 transfer_args = parser.add_argument_group('Transfer args')
-transfer_args.add_argument('--source_dataset_name', type=str, default='mofidied_AAAI20')
-transfer_args.add_argument('--target_dataset_name', type=str, default='ASSISTments2009')
-transfer_args.add_argument('--pretrained_weight_num', type=str)
+transfer_args.add_argument('--source_dataset_name', type=str, default='modified_AAAI20',
+                           choices=['modified_AAAI20', 'ASSISTments2009'])
+transfer_args.add_argument('--target_dataset_name', type=str, default='ASSISTments2009',
+                           choices=['modified_AAAI20', 'ASSISTments2009'])
+transfer_args.add_argument('--pretrained_weight_path', type=str)
 
 
 args = get_args()

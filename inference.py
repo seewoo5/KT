@@ -1,7 +1,7 @@
 from config import args
 import util
 from dataset.modified_AAAI20.dataset_modified_AAAI20 import KTDataset
-from dataset.ASSISTments2009.dataset_assistments import ASSISTDataset
+from dataset.dataset_tl import TripleLineDataset
 from network.DKT import DKT
 from constant import *
 from trainer import Trainer
@@ -29,9 +29,8 @@ if __name__ == '__main__':
     print(f'Test: # of users: {num_of_test_user}, # of samples: {len(test_sample_infos)}')
 
     # test_data = KTDataset('test', user_base_path, test_sample_infos, qid_to_embed_id, False)
-    test_data = ASSISTDataset('test', test_sample_infos)
+    test_data = TripleLineDataset('test', test_sample_infos)
 
-    # TODO: input dimension may differ from hidden dimension (d_model), change to one-hot
     model = DKT(args.d_model, args.d_model, args.num_layers, QUESTION_NUM, args.dropout).to(args.device)
     weight_path = f'{args.weight_path}{args.weight_num}.pt'
     trainer = Trainer(model, args.device, args.warm_up_step_count,

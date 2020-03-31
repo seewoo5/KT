@@ -8,7 +8,6 @@ from sklearn.metrics import roc_auc_score
 from itertools import repeat, chain, islice
 
 from config import args
-# from constant import QUESTION_NUM
 from network.util_network import ScheduledOptim, NoamOpt
 
 
