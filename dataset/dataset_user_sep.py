@@ -10,14 +10,14 @@ class UserSepDataset(Dataset):
 
     def __init__(self, name, sample_infos, dataset_name='ASSISTments2009'):
         self._name = name # train, val, test
-        self._sample_infos = sample_infos # list of (user_path, end_index)
+        self._sample_infos = sample_infos # list of (user_path, target_index)
         self._dataset_name = dataset_name
 
     def get_sequence(self, sample):
-        user_path, end_index = sample
+        user_path, target_index = sample
         with open(user_path, 'r') as f:
             data = f.readlines()[1:] # header exists
-            data = data[:end_index+1]
+            data = data[:target_index+1]
             user_data_length = len(data)
 
         if user_data_length > args.seq_size + 1:

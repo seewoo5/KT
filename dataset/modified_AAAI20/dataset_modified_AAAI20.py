@@ -9,38 +9,36 @@ from constant import *
 
 class KTDataset(Dataset):
 
-    def __init__(self, name, user_base_path, sample_infos, qid_to_embed_id, is_training):
+    def __init__(self, name, user_base_path, sample_infos, qid_to_embed_id):
         self._name = name # train, valid, test
         self._user_base_path = user_base_path
-        self._sample_infos = sample_infos # list of [user_path, start_index]
+        self._sample_infos = sample_infos # list of [user_path, target_index]
         self._qid_to_embed_id = qid_to_embed_id # qid mapping dict
-        self._is_training = is_training
 
-    def get_sequence_info(self, start_index, max_index, seq_size):
-        end_index = min(start_index + seq_size - 1, max_index)
-        pad_counts = seq_size - (end_index - start_index + 1)
-        return end_index, pad_counts
-
-    def get_sequence(self, user_base_path, sample, qid_to_embed_id, is_training):
-        user_path, start_index = sample
+    def get_sequence(self, user_base_path, sample, qid_to_embed_id):
+        user_path, target_index = sample
         user_full_path = create_full_path(user_base_path, user_path)
 
         with open(user_full_path, 'r') as f:
-            data = f.readlines()
+            data = f.readlines() # no header
+            data = data[:target_index+1]
             user_data_length = len(data)
 
-        end_index, pad_counts = self.get_sequence_info(start_index, user_data_length - 1, args.seq_size)
-        paddings = [PAD_INDEX] * (pad_counts + 1) # last response shouldn't be in the input
+        if user_data_length > args.seq_size + 1:
+            data = data[-(args.seq_size+1):]
+            pad_counts = 0
+        else:
+            pad_counts = args.seq_size + 1 - user_data_length
 
         input_list = []
 
-        for idx, line in enumerate(data[start_index:end_index + 1], start=start_index):
+        for idx, line in enumerate(data):
             line = line.rstrip().split(',')
             question_id = int(line[1])
             embed_id = self._qid_to_embed_id[question_id]
             is_correct = int(line[2] == line[3])
 
-            if idx == end_index:
+            if idx == len(data) - 1:
                 last_is_correct = is_correct
                 target_id = embed_id
             else:
@@ -49,6 +47,7 @@ class KTDataset(Dataset):
                 else:
                     input_list.append(embed_id + question_num['modified_AAAI20'])
 
+        paddings = [PAD_INDEX] * pad_counts
         input_list = paddings + input_list
         assert len(input_list) == args.seq_size, "sequence size error"
 
@@ -67,5 +66,4 @@ class KTDataset(Dataset):
     def __getitem__(self, index):
         return self.get_sequence(self._user_base_path,
                             self._sample_infos[index],
-                            self._qid_to_embed_id,
-                            self._is_training)
+                            self._qid_to_embed_id)
