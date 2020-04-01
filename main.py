@@ -10,12 +10,19 @@ from trainer import Trainer
 
 if __name__ == '__main__':
 
-    qid_mapper_path = f'dataset/{args.dataset_name}/content_dict.csv'
-    qid_to_embed_id = util.get_qid_to_embed_id(qid_mapper_path)
     if args.dataset_name == 'modified_AAAI20':
+        # TODO: fix this later
         user_base_path = f'{args.base_path}/modified_AAAI20/response/data_tree'
+        qid_mapper_path = f'dataset/{args.dataset_name}/content_dict.csv'
+        qid_to_embed_id = util.get_qid_to_embed_id(qid_mapper_path)
     else:
         user_base_path = f'{args.base_path}/{args.dataset_name}/response/'
+
+
+    # for debugging
+    train_data_path = f'/shared/benchmark/{args.dataset_name}/1/train/'
+    train_sample_infos, num_of_train_user = util.get_data_user_sep(train_data_path)
+    print('1')
 
     if args.debug_mode:
         train_data_path = f'dataset/{args.dataset_name}/sample_train_{args.dataset_name}.csv'
@@ -44,7 +51,7 @@ if __name__ == '__main__':
             val_sample_infos, num_of_val_user = util.get_data(val_data_path)
             test_sample_infos, num_of_test_user = util.get_data(test_data_path)
 
-            train_data = TripleLineDataset('test', train_sample_infos, args.dataset_name)
+            train_data = TripleLineDataset('train', train_sample_infos, args.dataset_name)
             val_data = TripleLineDataset('val', val_sample_infos, args.dataset_name)
             test_data = TripleLineDataset('test', test_sample_infos, args.dataset_name)
 

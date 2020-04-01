@@ -65,7 +65,8 @@ def print_args(params):
     info += '└─────────────────────────────────────────────────────\n'
     print(info)
 
-dataset_list = ['modified_AAAI20', 'ASSISTments2009', 'ASSISTments2015', 'STATICS']
+dataset_list = ['modified_AAAI20', 'ASSISTments2009', 'ASSISTments2012', 'ASSISTments2015', 'ASSISTmentsChall',
+                'STATICS', 'KDDCup']
 base_args = parser.add_argument_group('Base args')
 base_args.add_argument('--debug_mode', type=str2bool, default='1')
 base_args.add_argument('--save_path')

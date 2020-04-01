@@ -1,4 +1,6 @@
 import csv
+import glob
+import os
 
 
 def create_full_path(user_base_path, user_path):
@@ -54,3 +56,27 @@ def get_data(data_path):
             # data_list.append((qid_list, is_correct_list))
 
     return data_list, num_of_users
+
+
+def get_data_user_sep(data_path):
+    # almost same as get_sample_info
+    # data_path = benchmark/{args.dataset_name}/{i}/{train,val,test}/
+    # for user separated format data
+    # data_list = [] # list of (qid_lsit, is_correct_list) pairs
+    sample_infos = []
+    # get list of all files
+    user_path_list = os.listdir(data_path)
+    num_of_users = len(user_path_list)
+
+    for user_path in user_path_list:
+        with open(user_path, 'r') as f:
+            lines = f.readlines()
+            lines = lines[1:]
+            num_of_interactions = len(lines)
+            for end_index in range(len(num_of_interactions)):
+                sample_infos.append((user_path, end_index))
+
+    return num_of_users, sample_infos
+
+# if __name__ == '__main__':
+#     get_data_user_sep('/shared/benchmark/ASSISTmentsChall/1/train')
