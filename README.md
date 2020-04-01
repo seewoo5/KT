@@ -15,20 +15,22 @@
 | KDDCup2010       |      |                |
 | EdNet-KT1        |      |                |
 
+* For ASSISTments2009, ASSISTments2015, and STATICS data we use the same data (with different format) that used in [this](https://github.com/jennyzhang0215/DKVMN) DKVMN implementation. 
+
 ## DKT (Deep Knowledge Tracing)
 * Paper: https://web.stanford.edu/~cpiech/bio/papers/deepKnowledgeTracing.pdf
 * Performances: 
 
-| Dataset          | AUC  | ACC |
-|------------------|------|----------------|
-| ASSISTments2009  |      |        |
-| ASSISTments2015  |      |        |
-| ASSISTments2012  |      |                |
-| ASSISTmentsChall |      |           |
-| STATICS          |      |        |
-| Junyi Academy    |      |                |
-| KDDCup2010       |      |                |
-| EdNet-KT1        |      |                |
+| Dataset          | ACC | AUC | Hyper Parameters |
+|------------------|-----|-----|------------------|
+| ASSISTments2009  |     |     |                  |
+| ASSISTments2015  |     |     |                  |
+| ASSISTments2012  |     |     |                  |
+| ASSISTmentsChall |     |     |                  |
+| STATICS          |     |     |                  |
+| Junyi Academy    |     |     |                  |
+| KDDCup2010       |     |     |                  |
+| EdNet-KT1        |     |     |                  |
 
 ## DKVMN (Dynamic Key-Value Memory Network) (TODO)
 * Paper: http://papers.www2017.com.au.s3-website-ap-southeast-2.amazonaws.com/proceedings/p765.pdf
