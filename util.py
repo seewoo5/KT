@@ -69,14 +69,14 @@ def get_data_user_sep(data_path):
     num_of_users = len(user_path_list)
 
     for user_path in user_path_list:
-        with open(user_path, 'r') as f:
+        with open(data_path + user_path, 'r') as f:
             lines = f.readlines()
             lines = lines[1:]
             num_of_interactions = len(lines)
-            for end_index in range(len(num_of_interactions)):
-                sample_infos.append((user_path, end_index))
+            for end_index in range(num_of_interactions):
+                sample_infos.append((data_path + user_path, end_index))
 
-    return num_of_users, sample_infos
+    return sample_infos, num_of_users
 
 # if __name__ == '__main__':
 #     get_data_user_sep('/shared/benchmark/ASSISTmentsChall/1/train')

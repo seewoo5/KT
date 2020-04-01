@@ -6,7 +6,7 @@
         <remote-mappings server-id="python@sftp://root@210.116.109.68:21021/root/anaconda3/bin/python">
           <settings>
             <list>
-              <mapping local-root="$PROJECT_DIR$" remote-root="/root/anaconda3/bin/python" />
+              <mapping local-root="$PROJECT_DIR$" remote-root="/root/project/DKT_new" />
             </list>
           </settings>
         </remote-mappings>

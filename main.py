@@ -2,6 +2,7 @@ from config import args
 import util
 from dataset.modified_AAAI20.dataset_modified_AAAI20 import KTDataset
 from dataset.dataset_tl import TripleLineDataset
+from dataset.dataset_user_sep import UserSepDataset
 from network.DKT import DKT
 from constant import *
 from trainer import Trainer
@@ -16,13 +17,8 @@ if __name__ == '__main__':
         qid_mapper_path = f'dataset/{args.dataset_name}/content_dict.csv'
         qid_to_embed_id = util.get_qid_to_embed_id(qid_mapper_path)
     else:
-        user_base_path = f'{args.base_path}/{args.dataset_name}/response/'
+        user_base_path = f'{args.base_path}/{args.dataset_name}/processed'
 
-
-    # for debugging
-    train_data_path = f'/shared/benchmark/{args.dataset_name}/1/train/'
-    train_sample_infos, num_of_train_user = util.get_data_user_sep(train_data_path)
-    print('1')
 
     if args.debug_mode:
         train_data_path = f'dataset/{args.dataset_name}/sample_train_{args.dataset_name}.csv'
@@ -43,17 +39,30 @@ if __name__ == '__main__':
             val_data = KTDataset('val', user_base_path, val_sample_infos, qid_to_embed_id, False)
             test_data = KTDataset('test', user_base_path, test_sample_infos, qid_to_embed_id, False)
         else:
-            train_data_path = f'dataset/{args.dataset_name}/train_data.csv'
-            val_data_path = f'dataset/{args.dataset_name}/val_data.csv'
-            test_data_path = f'dataset/{args.dataset_name}/test_data.csv'
 
-            train_sample_infos, num_of_train_user = util.get_data(train_data_path)
-            val_sample_infos, num_of_val_user = util.get_data(val_data_path)
-            test_sample_infos, num_of_test_user = util.get_data(test_data_path)
+            # train_data_path = f'dataset/{args.dataset_name}/train_data.csv'
+            # val_data_path = f'dataset/{args.dataset_name}/val_data.csv'
+            # test_data_path = f'dataset/{args.dataset_name}/test_data.csv'
 
-            train_data = TripleLineDataset('train', train_sample_infos, args.dataset_name)
-            val_data = TripleLineDataset('val', val_sample_infos, args.dataset_name)
-            test_data = TripleLineDataset('test', test_sample_infos, args.dataset_name)
+            train_data_path = f'{user_base_path}/1/train/'
+            val_data_path = f'{user_base_path}/1/val/'
+            test_data_path = f'{user_base_path}/1/test/'
+
+            # train_sample_infos, num_of_train_user = util.get_data(train_data_path)
+            # val_sample_infos, num_of_val_user = util.get_data(val_data_path)
+            # test_sample_infos, num_of_test_user = util.get_data(test_data_path)
+
+            train_sample_infos, num_of_train_user = util.get_data_user_sep(train_data_path)
+            val_sample_infos, num_of_val_user = util.get_data_user_sep(val_data_path)
+            test_sample_infos, num_of_test_user = util.get_data_user_sep(test_data_path)
+
+            # train_data = TripleLineDataset('train', train_sample_infos, args.dataset_name)
+            # val_data = TripleLineDataset('val', val_sample_infos, args.dataset_name)
+            # test_data = TripleLineDataset('test', test_sample_infos, args.dataset_name)
+
+            train_data = UserSepDataset('train', train_sample_infos, args.dataset_name)
+            val_data = UserSepDataset('val', val_sample_infos, args.dataset_name)
+            test_data = UserSepDataset('test', test_sample_infos, args.dataset_name)
 
     print(f'Train: # of users: {num_of_train_user}, # of samples: {len(train_sample_infos)}')
     print(f'Validation: # of users: {num_of_val_user}, # of samples: {len(val_sample_infos)}')
