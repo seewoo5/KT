@@ -76,7 +76,7 @@ class Trainer:
             cur_weight = self._model.state_dict()
             torch.save(cur_weight, f'{self._weight_path}{self.step}.pt')
             self._test('Validation', val_gen)
-            print(f'Current best weight: {self.max_step}.pt, best auc: {self.max_auc}')
+            print(f'Current best weight: {self.max_step}.pt, best auc: {self.max_auc:.4f}')
 
     # get test results
     def test(self, weight_num):

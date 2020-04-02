@@ -8,14 +8,19 @@ from constant import *
 from trainer import Trainer
 import torch
 
-def load_pretrained_weight_DKT(model, freeze):
-    weight = torch.load(args.pretrained_weight_path, map_location=args.device)
+def load_pretrained_weight_DKT(model, freeze=False, is_source=True):
+    pretrained_weight_path = args.source_pretrained_weight_path if is_source \
+                             else args.target_pretrained_weight_path
+    weight = torch.load(pretrained_weight_path, map_location=args.device)
     for name, param in model.named_parameters():
-        if name.split('.')[0] == '_lstm':
+        if is_source == (name.split('.')[0] == '_lstm'):
+            # If is_source == True, then load LSTM weights
+            # Otherwise, load encoder & decoder weights
             param.data.copy_(weight[name])
             if freeze == True:
                 # freeze pre-trained weight
                 param.requires_grad = False
+
 
 if __name__ == '__main__':
     qid_mapper_path = f'dataset/{args.dataset_name}/content_dict.csv'
@@ -61,11 +66,10 @@ if __name__ == '__main__':
     print(f'Validation: # of users: {num_of_val_user}, # of samples: {len(val_sample_infos)}')
     print(f'Test: # of users: {num_of_test_user}, # of samples: {len(test_sample_infos)}')
 
-    source_data_name = args.source_dataset_name
-    target_data_name = args.target_dataset_name
-
-    model = DKT(args.input_dim, args.hidden_dim, args.num_layers, question_num[target_data_name], args.dropout).to(args.device)
-    load_pretrained_weight_DKT(model, args.freeze) # load pretrained weight
+    model = DKT(args.input_dim, args.hidden_dim, args.num_layers, question_num[args.target_dataset_name], args.dropout).to(args.device)
+    load_pretrained_weight_DKT(model, args.source_freeze, is_source=True)  # from source: LSTM weight
+    if args.combine_weight:
+        load_pretrained_weight_DKT(model, args.target_freeze, is_source=False)  # from target: encoder & decoder weight
 
     trainer = Trainer(model, args.device, args.warm_up_step_count,
                       args.hidden_dim, args.num_epochs, args.weight_path,

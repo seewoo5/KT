@@ -104,8 +104,11 @@ transfer_args = parser.add_argument_group('Transfer args')
 transfer_args.add_argument('--source_dataset_name', type=str, default='modified_AAAI20', choices=dataset_list)
 transfer_args.add_argument('--target_dataset_name', type=str, default='ASSISTments2009', choices=dataset_list)
 transfer_args.add_argument('--pretrained_weight_path', type=str)
-transfer_args.add_argument('--freeze', type=str2bool, default='0')
-
+transfer_args.add_argument('--source_freeze', type=str2bool, default='0')
+transfer_args.add_argument('--target_freeze', type=str2bool, default='0')
+transfer_args.add_argument('--combine_weight', type=str2bool, default='0')
+transfer_args.add_argument('--source_pretrained_weight_path', type=str)
+transfer_args.add_argument('--target_pretrained_weight_path', type=str)
 
 args = get_args()
 
