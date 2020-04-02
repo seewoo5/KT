@@ -5,7 +5,7 @@
 ## Pre-processed Dataset
 * Download Link: https://bit.ly/2w7J3On
 * Dataset format: log files are seperated by users. Once you download and unzip each tar.gz file, there's a folder `processed`, and there are 5 subdirectories named from `1` to `5` for cross validation. Each subdirectory has its own train/val/test separation, where test dataset is shared by all 5 separations. Separation ratio are given in the following table. 
-For each user, `{user_id}.csv` contains two rows: tag(skill_id, or question_id, which is a single positive integer) and correctness (0 or 1). 
+For each user, `{user_id}.csv` contains two columns (with headers): tag(skill_id, or question_id, which is a single positive integer) and correctness (0 or 1). 
 
 | Dataset          | Train:Val:Test | Link | 
 |------------------|----------------|------|
