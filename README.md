@@ -3,17 +3,19 @@
 *PyTorch implementations of various Knowledge Tracing models* 
 
 ## Pre-processed Dataset
+* Download Link: https://bit.ly/2w7J3On
+* Dataset format: log files are seperated by users. Once you download and unzip each tar.gz file, there's a folder `processed`, and there are 5 subdirectories named from `1` to `5` for cross validation. Each subdirectory has its own train/val/test separation, where test dataset is shared by all 5 separations. Separation ratio are given in the following table. 
 
-| Dataset          | Link | Train:Val:Test |
-|------------------|------|----------------|
-| ASSISTments2009  |      | 56:14:30       |
-| ASSISTments2015  |      | 56:14:30       |
-| ASSISTments2012  |      |                |
-| ASSISTmentsChall |      | 6:2:2          |
-| STATICS          |      | 56:14:30       |
-| Junyi Academy    |      |                |
-| KDDCup2010       |      |                |
-| EdNet-KT1        |      |                |
+| Dataset          | Train:Val:Test |
+|------------------|----------------|
+| ASSISTments2009  |       56:14:30       |
+| ASSISTments2015  |       56:14:30       |
+| ASSISTments2012  |                      |
+| ASSISTmentsChall |       6:2:2          |
+| STATICS          |       56:14:30       |
+| Junyi Academy    |                      |
+| KDDCup2010       |                      |
+| EdNet-KT1        |                      |
 
 * For ASSISTments2009, ASSISTments2015, and STATICS data we use the same data (with different format) that used in [this](https://github.com/jennyzhang0215/DKVMN) DKVMN implementation. 
 
