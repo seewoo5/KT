@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="root@210.116.109.68:21021">
+  <component name="PublishConfigData" autoUpload="Always" serverName="gpu4sw">
     <serverData>
       <paths name="gpu4sw">
         <serverdata>
           <mappings>
             <mapping deploy="/root/project/DKT_new" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="gpu4sw_postKT">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/root/project/post_KT_3" local="$PROJECT_DIR$/../post_KT_3" web="/" />
           </mappings>
         </serverdata>
       </paths>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="fd624add-6dec-4b3d-b3c4-e6e6a605790f" name="gpu4sw_postKT" url="http://210.116.109.68">
+        <fileTransfer host="210.116.109.68" port="21021" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="21021" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

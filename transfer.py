@@ -53,9 +53,9 @@ if __name__ == '__main__':
             val_sample_infos, num_of_val_user = util.get_data_user_sep(val_data_path)
             test_sample_infos, num_of_test_user = util.get_data_user_sep(test_data_path)
 
-            train_data = UserSepDataset('train', train_sample_infos, args.dataset_name)
-            val_data = UserSepDataset('val', val_sample_infos, args.dataset_name)
-            test_data = UserSepDataset('test', test_sample_infos, args.dataset_name)
+            train_data = UserSepDataset('train', train_sample_infos, args.target_dataset_name)
+            val_data = UserSepDataset('val', val_sample_infos, args.target_dataset_name)
+            test_data = UserSepDataset('test', test_sample_infos, args.target_dataset_name)
 
     print(f'Train: # of users: {num_of_train_user}, # of samples: {len(train_sample_infos)}')
     print(f'Validation: # of users: {num_of_val_user}, # of samples: {len(val_sample_infos)}')

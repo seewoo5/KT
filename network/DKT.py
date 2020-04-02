@@ -11,7 +11,7 @@ class DKT(nn.Module):
         self._hidden_dim = hidden_dim
         self._num_layers = num_layers
         self._lstm = nn.LSTM(input_dim, hidden_dim, num_layers=num_layers, batch_first=True, dropout=dropout)
-        self._encoder = nn.Embedding(num_embeddings=2*num_question+1, embedding_dim=hidden_dim, padding_idx=PAD_INDEX)
+        self._encoder = nn.Embedding(num_embeddings=2*num_question+1, embedding_dim=input_dim, padding_idx=PAD_INDEX)
         self._decoder = nn.Linear(hidden_dim, num_question)
 
     def init_hidden(self, batch_size):
