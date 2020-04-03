@@ -7,7 +7,7 @@ QUESTION_NUM = {
     'ASSISTments2015': 100,
     'ASSISTmentsChall': 102,
     'KDDCup': 0, # TODO: fix
-    'Junyi': 0, # TODO: fix
+    'Junyi': 722, # TODO: fix
     'STATICS': 1223,
-    'EdNet-KT1': 0, # TODO: fix
+    'EdNet-KT1': 18143
 }

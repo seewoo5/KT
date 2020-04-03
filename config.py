@@ -47,7 +47,7 @@ def get_args():
             torch.cuda.set_device(params.gpu[0])
 
     params.weight_path = f'weight/{params.name}/'
-    params.save_path = f'log/{params.name}.log'
+    # params.save_path = f'log/{params.name}.log'
     os.makedirs(params.weight_path, exist_ok=True)
 
     return params
@@ -68,8 +68,7 @@ def print_args(params):
 dataset_list = ['modified_AAAI20', 'ASSISTments2009', 'ASSISTments2012', 'ASSISTments2015', 'ASSISTmentsChall',
                 'STATICS', 'KDDCup', 'EdNet-KT1']
 base_args = parser.add_argument_group('Base args')
-base_args.add_argument('--debug_mode', type=str2bool, default='1')
-base_args.add_argument('--save_path')
+# base_args.add_argument('--save_path')
 base_args.add_argument('--tags', type=str, default='none')
 base_args.add_argument('--project', type=str, default="DKT")
 base_args.add_argument('--name', type=str, default="name")
