@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
+from config import args
 
 
 class ScheduledOptim():
@@ -66,3 +67,17 @@ class NoamOpt:
         return self.factor * \
                (self.model_size ** (-0.5) *
                 min(step ** (-0.5), step * self.warmup ** (-1.5)))
+
+
+def load_pretrained_weight_DKT(model, freeze=False, is_source=True):
+    pretrained_weight_path = args.source_pretrained_weight_path if is_source \
+                             else args.target_pretrained_weight_path
+    weight = torch.load(pretrained_weight_path, map_location=args.device)
+    for name, param in model.named_parameters():
+        if is_source == (name.split('.')[0] == '_lstm'):
+            # If is_source == True, then load LSTM weights
+            # Otherwise, load encoder & decoder weights
+            param.data.copy_(weight[name])
+            if freeze == True:
+                # freeze pre-trained weight
+                param.requires_grad = False

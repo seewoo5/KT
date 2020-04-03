@@ -22,8 +22,8 @@ def get_qid_to_embed_id(dict_path):
 
 
 def get_sample_info(user_base_path, data_path):
+    # for modified_AAAI20 data
     sample_infos = []
-
     with open(data_path, 'r') as f:
         lines = f.readlines()
         num_of_users = len(lines)
@@ -33,8 +33,8 @@ def get_sample_info(user_base_path, data_path):
             with open(user_full_path, 'r', encoding='ISO-8859-1') as f:
                 lines = f.readlines()
                 num_of_interactions = len(lines)
-                for start_index in range(num_of_interactions):
-                    sample_infos.append([user_path, start_index])
+                for target_index in range(num_of_interactions):
+                    sample_infos.append([user_path, target_index])
 
     return sample_infos, num_of_users
 

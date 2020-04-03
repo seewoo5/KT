@@ -40,7 +40,7 @@ class UserSepDataset(Dataset):
                 if is_correct:
                     input_list.append(tag_id)
                 else:
-                    input_list.append(tag_id + question_num[self._dataset_name])
+                    input_list.append(tag_id + QUESTION_NUM[self._dataset_name])
 
         paddings = [PAD_INDEX] * pad_counts
         input_list = paddings + input_list

@@ -22,7 +22,7 @@ class TripleLineDataset(Dataset):
         input_list = qid_list[:-1]
         for i in range(len(input_list)):
             if is_correct_list[i] == 0:
-                input_list[i] += question_num[self._dataset_name]
+                input_list[i] += QUESTION_NUM[self._dataset_name]
 
         if len(input_list) > args.seq_size:
             input_list = input_list[-args.seq_size:]

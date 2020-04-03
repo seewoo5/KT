@@ -45,7 +45,7 @@ class KTDataset(Dataset):
                 if is_correct == 1:
                     input_list.append(embed_id)
                 else:
-                    input_list.append(embed_id + question_num['modified_AAAI20'])
+                    input_list.append(embed_id + QUESTION_NUM['modified_AAAI20'])
 
         paddings = [PAD_INDEX] * pad_counts
         input_list = paddings + input_list
