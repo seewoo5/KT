@@ -84,12 +84,20 @@ base_args.add_argument('--machine_name', type=str)
 model_list = ['DKT', 'DKVMN', 'SAKT']
 
 model_args = parser.add_argument_group('Model args')
-model_args.add_argument('--model_type', type=str, default='DKT', choices=model_list)
+model_args.add_argument('--model', type=str, default='DKT', choices=model_list)
+
+# DKT
 model_args.add_argument('--num_layers', type=int, default=1)
 model_args.add_argument('--hidden_dim', type=int, default=100)
 model_args.add_argument('--input_dim', type=int, default=100)
-model_args.add_argument('--summary_dim', type=int, default=100)
 model_args.add_argument('--dropout', type=float, default=0.2)
+
+# DKVMN
+model_args.add_argument('--key_dim', type=int, default=100)
+model_args.add_argument('--value_dim', type=int, default=100)
+model_args.add_argument('--summary_dim', type=int, default=100)
+model_args.add_argument('--concept_num', type=int, default=20)
+
 
 train_args = parser.add_argument_group('Train args')
 train_args.add_argument('--random_seed', type=int, default=1)
@@ -97,7 +105,7 @@ train_args.add_argument('--num_epochs', type=int, default=10)
 train_args.add_argument('--train_batch', type=int, default=64)
 train_args.add_argument('--test_batch', type=int, default=64)
 train_args.add_argument('--lr', type=float, default=0.001)
-train_args.add_argument('--seq_size', type=int, default=20)
+train_args.add_argument('--seq_size', type=int, default=200)
 train_args.add_argument('--warm_up_step_count', type=int, default=4000)
 train_args.add_argument('--is_warm_up', type=str2bool, default='1')
 train_args.add_argument('--eval_steps', type=int, default=5)

@@ -3,6 +3,7 @@ from torch.utils.data import Dataset
 from config import args
 from constant import *
 
+
 class UserSepDataset(Dataset):
 
     def __init__(self, name, sample_infos, dataset_name='ASSISTments2009'):

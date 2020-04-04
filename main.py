@@ -32,11 +32,17 @@ def run(i):
     print(f'Validation: # of users: {num_of_val_user}, # of samples: {len(val_sample_infos)}')
     print(f'Test: # of users: {num_of_test_user}, # of samples: {len(test_sample_infos)}')
 
-    model = DKT(args.input_dim, args.hidden_dim, args.num_layers, QUESTION_NUM[args.target_dataset_name], args.dropout).to(args.device)
-    if args.source_pretrained_weight_path is not None:
-        load_pretrained_weight_DKT(model, args.source_freeze, is_source=True)  # from source: LSTM weight
-    if args.target_pretrained_weight_path is not None:
-        load_pretrained_weight_DKT(model, args.target_freeze, is_source=False)  # from target: encoder & decoder weight
+    if args.model == 'DKT':
+        model = DKT(args.input_dim, args.hidden_dim, args.num_layers, QUESTION_NUM[args.target_dataset_name],
+                    args.dropout).to(args.device)
+        if args.source_pretrained_weight_path is not None:
+            load_pretrained_weight_DKT(model, args.source_freeze, is_source=True)  # from source: LSTM weight
+        if args.target_pretrained_weight_path is not None:
+            load_pretrained_weight_DKT(model, args.target_freeze, is_source=False)  # from target: encoder & decoder weight
+
+    elif args.model == 'DKVMN':
+        model = DKVMN(args.key_dim, args.value_dim, args.summary_dim, QUESTION_NUM[args.target_dataset_name],
+                      args.concept_num).to(args.device)
 
     trainer = Trainer(model, args.device, args.warm_up_step_count,
                   args.hidden_dim, args.num_epochs, args.weight_path,
