@@ -47,6 +47,9 @@ class Trainer:
         self.max_acc = 0
         self.max_auc = 0
 
+        self.test_acc = 0
+        self.test_auc = 0
+
     # train model and choose weight with max auc on validation dataset
     def train(self):
         train_gen = data.DataLoader(
@@ -177,6 +180,10 @@ class Trainer:
                 self.max_auc = auc
                 self.max_acc = acc
                 self.max_step = self.step
+
+        elif name == 'Test':
+            self.test_acc = acc
+            self.test_auc = auc
 
         # wandb.log({
         #     'Test acc': acc,

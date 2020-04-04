@@ -20,6 +20,7 @@ class DKVMN(nn.Module):
         self._interaction_embedding = nn.Embedding(num_embeddings=2*question_num+1,
                                                    embedding_dim=value_dim,
                                                    padding_idx=PAD_INDEX)
+
         self._erase_layer = nn.Linear(in_features=value_dim,
                                       out_features=value_dim)
         self._add_layer = nn.Linear(in_features=value_dim,

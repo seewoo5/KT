@@ -102,6 +102,7 @@ train_args.add_argument('--warm_up_step_count', type=int, default=4000)
 train_args.add_argument('--is_warm_up', type=str2bool, default='1')
 train_args.add_argument('--eval_steps', type=int, default=5)
 train_args.add_argument('--max_grad_norm', type=float, default=20)
+train_args.add_argument('--cross_validation', type=str2bool, default=0)
 
 transfer_args = parser.add_argument_group('Transfer args')
 transfer_args.add_argument('--source_dataset_name', type=str, default='modified_AAAI20', choices=dataset_list)
