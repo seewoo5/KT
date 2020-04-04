@@ -47,10 +47,10 @@ def get_args():
             torch.cuda.set_device(params.gpu[0])
 
     params.weight_path = f'weight/{params.name}/'
-    # params.save_path = f'log/{params.name}.log'
     os.makedirs(params.weight_path, exist_ok=True)
 
     return params
+
 
 def print_args(params):
     info = '\n[args]________________________________________________\n'
@@ -65,10 +65,10 @@ def print_args(params):
     info += '└─────────────────────────────────────────────────────\n'
     print(info)
 
+
 dataset_list = ['modified_AAAI20', 'ASSISTments2009', 'ASSISTments2012', 'ASSISTments2015', 'ASSISTmentsChall',
                 'STATICS', 'KDDCup', 'EdNet-KT1']
 base_args = parser.add_argument_group('Base args')
-# base_args.add_argument('--save_path')
 base_args.add_argument('--tags', type=str, default='none')
 base_args.add_argument('--project', type=str, default="DKT")
 base_args.add_argument('--name', type=str, default="name")
@@ -79,7 +79,6 @@ base_args.add_argument('--base_path', type=str, default='/shared/benchmarks/')
 base_args.add_argument('--weight_path', type=str)
 base_args.add_argument('--weight_num', type=str)
 base_args.add_argument('--machine_name', type=str)
-base_args.add_argument('--dataset_name', type=str, default='modified_AAAI20', choices=dataset_list)
 
 train_args = parser.add_argument_group('Train args')
 train_args.add_argument('--random_seed', type=int, default=1)
@@ -91,7 +90,7 @@ train_args.add_argument('--test_batch', type=int, default=64)
 train_args.add_argument('--lr', type=float, default=0.001)
 train_args.add_argument('--seq_size', type=int, default=20)
 train_args.add_argument('--warm_up_step_count', type=int, default=4000)
-train_args.add_argument('--num_layer', type=int, default=2)
+train_args.add_argument('--num_layer', type=int, default=1)
 train_args.add_argument('--hidden_dim', type=int, default=256)
 train_args.add_argument('--input_dim', type=int, default=256)
 train_args.add_argument('--dropout', type=float, default=0.2)

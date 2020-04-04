@@ -94,13 +94,10 @@ class Trainer:
 
     def _forward(self, batch):
         batch = {k: t.to(self._device) for k, t in batch.items()}
-        label = batch['label'] # shape: (batch_size, 1)
-        target_ids = batch['target_id']
+        label = batch['label']  # shape: (batch_size, 1)
 
-        output = self._model(batch['input']) # output shape: (batch_size, QUESTION_NUM)
-        # transform output to take only relevant output
-        output = torch.gather(output, -1, target_ids) # shape: (batch_size, QUESITON_NUM) -> (batch_size, 1)
-        pred = (torch.sigmoid(output) >= self._threshold).long() # shape: (batch_size, 1)
+        output = self._model(batch['input'], batch['target_id'])
+        pred = (torch.sigmoid(output) >= self._threshold).long()  # shape: (batch_size, 1)
 
         return label, output, pred
 

@@ -1,9 +1,6 @@
-import os
 import torch
 from torch.utils.data import Dataset
-import csv
 from config import args
-from util import create_full_path
 from constant import *
 
 class UserSepDataset(Dataset):
@@ -26,8 +23,8 @@ class UserSepDataset(Dataset):
         else:
             pad_counts = args.seq_size + 1 - user_data_length
 
+        # TODO: separate question and response for input?
         input_list = []
-
         for idx, line in enumerate(data):
             line = line.rstrip().split(',')
             tag_id = int(line[0])

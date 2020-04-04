@@ -48,9 +48,9 @@ if __name__ == '__main__':
     print(f'Test: # of users: {num_of_test_user}, # of samples: {len(test_sample_infos)}')
 
     model = DKT(args.input_dim, args.hidden_dim, args.num_layers, QUESTION_NUM[args.target_dataset_name], args.dropout).to(args.device)
-    if args.source_pretrained_weight_path != None:
+    if args.source_pretrained_weight_path is not None:
         load_pretrained_weight_DKT(model, args.source_freeze, is_source=True)  # from source: LSTM weight
-    if args.target_pretrained_weight_path != None:
+    if args.target_pretrained_weight_path is not None:
         load_pretrained_weight_DKT(model, args.target_freeze, is_source=False)  # from target: encoder & decoder weight
 
     trainer = Trainer(model, args.device, args.warm_up_step_count,

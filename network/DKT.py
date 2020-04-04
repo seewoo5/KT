@@ -17,10 +17,11 @@ class DKT(nn.Module):
         return (weight.new_zeros(self._num_layers, batch_size, self._hidden_dim),
                 weight.new_zeros(self._num_layers, batch_size, self._hidden_dim))
 
-    def forward(self, input):
+    def forward(self, input, target_id):
         batch_size = input.shape[0]
         hidden = self.init_hidden(batch_size)
         input = self._encoder(input)
         output, hidden = self._lstm(input, (hidden[0].detach(), hidden[1].detach()))
-        output = self._decoder(output[:,-1,:])
+        output = self._decoder(output[:, -1, :])
+        output = torch.gather(output, -1, target_id)
         return output
