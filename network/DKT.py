@@ -4,6 +4,7 @@ from constant import PAD_INDEX
 
 
 class DKT(nn.Module):
+
     def __init__(self, input_dim, hidden_dim, num_layers, num_question, dropout):
         super().__init__()
         self._hidden_dim = hidden_dim
@@ -13,11 +14,20 @@ class DKT(nn.Module):
         self._decoder = nn.Linear(hidden_dim, num_question)
 
     def init_hidden(self, batch_size):
+        """
+        initialize hidden layer as zero tensor
+        batch_size: single integer
+        """
         weight = next(self.parameters())
         return (weight.new_zeros(self._num_layers, batch_size, self._hidden_dim),
                 weight.new_zeros(self._num_layers, batch_size, self._hidden_dim))
 
     def forward(self, input, target_id):
+        """
+        get model output (before taking sigmoid) for target_id
+        input: (batch_size, sequence_size)
+        target_id: (batch_size)
+        """
         batch_size = input.shape[0]
         hidden = self.init_hidden(batch_size)
         input = self._encoder(input)

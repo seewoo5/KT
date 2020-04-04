@@ -3,6 +3,7 @@ import util
 from dataset.modified_AAAI20.dataset_modified_AAAI20 import KTDataset
 from dataset.dataset_user_sep import UserSepDataset
 from network.DKT import DKT
+from network.DKVMN import DKVMN
 from constant import QUESTION_NUM
 from trainer import Trainer
 from network.util_network import load_pretrained_weight_DKT

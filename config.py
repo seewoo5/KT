@@ -67,7 +67,8 @@ def print_args(params):
 
 
 dataset_list = ['modified_AAAI20', 'ASSISTments2009', 'ASSISTments2012', 'ASSISTments2015', 'ASSISTmentsChall',
-                'STATICS', 'KDDCup', 'EdNet-KT1']
+                'STATICS', 'KDDCup', 'Junyi', 'EdNet-KT1']
+
 base_args = parser.add_argument_group('Base args')
 base_args.add_argument('--tags', type=str, default='none')
 base_args.add_argument('--project', type=str, default="DKT")
@@ -80,20 +81,24 @@ base_args.add_argument('--weight_path', type=str)
 base_args.add_argument('--weight_num', type=str)
 base_args.add_argument('--machine_name', type=str)
 
+model_list = ['DKT', 'DKVMN', 'SAKT']
+
+model_args = parser.add_argument_group('Model args')
+model_args.add_argument('--model_type', type=str, default='DKT', choices=model_list)
+model_args.add_argument('--num_layers', type=int, default=1)
+model_args.add_argument('--hidden_dim', type=int, default=100)
+model_args.add_argument('--input_dim', type=int, default=100)
+model_args.add_argument('--summary_dim', type=int, default=100)
+model_args.add_argument('--dropout', type=float, default=0.2)
+
 train_args = parser.add_argument_group('Train args')
 train_args.add_argument('--random_seed', type=int, default=1)
 train_args.add_argument('--num_epochs', type=int, default=10)
-train_args.add_argument('--num_layers', type=int, default=1)
-train_args.add_argument('--min_size', type=int, default=10)
 train_args.add_argument('--train_batch', type=int, default=64)
 train_args.add_argument('--test_batch', type=int, default=64)
 train_args.add_argument('--lr', type=float, default=0.001)
 train_args.add_argument('--seq_size', type=int, default=20)
 train_args.add_argument('--warm_up_step_count', type=int, default=4000)
-train_args.add_argument('--num_layer', type=int, default=1)
-train_args.add_argument('--hidden_dim', type=int, default=256)
-train_args.add_argument('--input_dim', type=int, default=256)
-train_args.add_argument('--dropout', type=float, default=0.2)
 train_args.add_argument('--is_warm_up', type=str2bool, default='1')
 train_args.add_argument('--eval_steps', type=int, default=5)
 train_args.add_argument('--max_grad_norm', type=float, default=20)

@@ -70,6 +70,12 @@ class NoamOpt:
 
 
 def load_pretrained_weight_DKT(model, freeze=False, is_source=True):
+    """
+    load pre-trained weight
+    freeze: Bool type, freeze corresponding weight if freeze == True
+    is_source: Bool type, flag that represents whether we use the weight
+    that pre-trained on source dataset or target dataset
+    """
     pretrained_weight_path = args.source_pretrained_weight_path if is_source \
                              else args.target_pretrained_weight_path
     weight = torch.load(pretrained_weight_path, map_location=args.device)
@@ -81,3 +87,14 @@ def load_pretrained_weight_DKT(model, freeze=False, is_source=True):
             if freeze == True:
                 # freeze pre-trained weight
                 param.requires_grad = False
+
+
+def load_pretrained_weight_DKVMN(model, freeze=False, is_source=True):
+    """
+    load pre-trained weight
+    :param model:
+    :param freeze:
+    :param is_source:
+    :return:
+    """
+    pass
