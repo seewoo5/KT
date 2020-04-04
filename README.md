@@ -1,4 +1,4 @@
-# Knolwedge Tracing Models
+# Knowledge Tracing Models
 
 *PyTorch implementations of various Knowledge Tracing models* 
 
