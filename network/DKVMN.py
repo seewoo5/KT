@@ -4,6 +4,7 @@ from constant import PAD_INDEX
 from config import args
 from math import sqrt
 
+
 class DKVMN(nn.Module):
 
     def __init__(self, key_dim, value_dim, summary_dim, question_num, concept_num):
@@ -32,6 +33,10 @@ class DKVMN(nn.Module):
         self._output_layer = nn.Linear(in_features=summary_dim,
                                        out_features=1)
 
+        # key memory matrix, transposed and initialized
+        self._key_memory = torch.Tensor(self._key_dim, self._concept_num).to(args.device)
+        stdev = 1 / (sqrt(self._concept_num + self._key_dim))
+        nn.init.uniform_(self._key_memory, -stdev, stdev)
 
         # activation functions
         self._sigmoid = nn.Sigmoid()
@@ -48,18 +53,16 @@ class DKVMN(nn.Module):
         """
         return interaction - self._question_num * (interaction > self._question_num).long()
 
-    def _init_memory(self):
+    def _init_value_memory(self):
         """
-        initialize key and value memory matrices
+        initialize value memory matrix
         follows initialization that used in the following NMT implementation:
         https://github.com/loudinthecloud/pytorch-ntm/blob/master/ntm/memory.py
         """
-        # memory matrices, transposed
-        self._key_memory = torch.Tensor(self._key_dim, self._concept_num).to(args.device)
+        # value memory matrix, transposed
         self._value_memory = torch.Tensor(self._value_dim, self._concept_num).to(args.device)
 
         stdev = 1 / (sqrt(self._concept_num + self._key_dim))
-        nn.init.uniform_(self._key_memory, -stdev, stdev)
         nn.init.uniform_(self._value_memory, -stdev, stdev)
         self._value_memory = self._value_memory.clone().repeat(self._batch_size, 1, 1)  # (batch_size, key_dim, concept_num)
 
@@ -107,10 +110,10 @@ class DKVMN(nn.Module):
         input: integer tensor of shape (batch_size, sequence_size)
         target_id: integer tensor of shape (batch_size)
         """
-        # initialize memory matrices
+        # initialize value memory matrix
         batch_size = input.shape[0]
         self._batch_size = batch_size
-        self._init_memory()
+        self._init_value_memory()
 
         # repeat write process seq_size many times with input
         for i in range(args.seq_size):
