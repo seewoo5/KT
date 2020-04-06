@@ -6,6 +6,7 @@ from torch.utils import data
 from tqdm import tqdm
 from sklearn.metrics import roc_auc_score
 from itertools import repeat, chain, islice
+import os
 
 from config import args
 from network.util_network import ScheduledOptim, NoamOpt
@@ -32,7 +33,7 @@ class Trainer:
         self._weight_path = weight_path
 
         self._model = model
-        self._loss_fn = nn.BCEWithLogitsLoss(reduce=False)
+        self._loss_fn = nn.BCEWithLogitsLoss(reduction='none')
         self._model.to(device)
 
         self._train_data = train_data
@@ -80,6 +81,11 @@ class Trainer:
             torch.save(cur_weight, f'{self._weight_path}{self.step}.pt')
             self._test('Validation', val_gen)
             print(f'Current best weight: {self.max_step}.pt, best auc: {self.max_auc:.4f}')
+            # remove all weight file except {self.max_step}.pt
+            weight_list = os.listdir(self._weight_path)
+            for w in weight_list:
+                if int(w[:-3]) != self.max_step:
+                    os.unlink(f'{self._weight_path}{w}')
 
     # get test results
     def test(self, weight_num):
