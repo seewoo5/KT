@@ -22,31 +22,46 @@ For each user, `{user_id}.csv` contains two columns (with headers): tag(skill_id
 
 ## DKT (Deep Knowledge Tracing)
 * Paper: https://web.stanford.edu/~cpiech/bio/papers/deepKnowledgeTracing.pdf
+* Model: RNN, LSTM
 * Performances: 
 
-| Dataset          | ACC | AUC | Hyper Parameters |
+| Dataset          | ACC (%) | AUC (%) | Hyper Parameters |
 |------------------|-----|-----|------------------|
-| ASSISTments2009  |     |     |                  |
-| ASSISTments2015  |     |     |                  |
+| ASSISTments2009  | 77.02 ± 0.07 | 81.81 ± 0.1 | input_dim=100, hidden_dim=100 |
+| ASSISTments2015  | 74.94 ± 0.04 |  72.94 ± 0.05 | input_dim=100, hidden_dim=100 |
 | ASSISTments2012  |     |     |                  |
-| ASSISTmentsChall |     |     |                  |
-| STATICS          |     |     |                  |
+| ASSISTmentsChall |  68.67 ± 0.09 | 72.29 ± 0.06  | input_dim=100, hidden_dim=100 |
+| STATICS          |  81.27 ± 0.06 | 82.87 ± 0.1   | input_dim=100, hidden_dim=100 |
 | Junyi Academy    |     |     |                  |
 | KDDCup2010       |     |     |                  |
 | EdNet-KT1        |     |     |                  |
 
+* All models are trained with batch size 2048 and sequence size 200. 
+
 ## DKVMN (Dynamic Key-Value Memory Network) (TODO)
 * Paper: http://papers.www2017.com.au.s3-website-ap-southeast-2.amazonaws.com/proceedings/p765.pdf
+* Model: Extension of Memory-Augmented Neural Network (MANN)
+* Performances: 
+
+| Dataset          | ACC (%) | AUC (%) | Hyper Parameters |
+|------------------|-----|-----|------------------|
+| ASSISTments2009  | |  | |
+| ASSISTments2015  | |   |  |
+| ASSISTments2012  |     |     |                  |
+| ASSISTmentsChall |   |  |  |
+| STATICS          |   |   |  |
+| Junyi Academy    |     |     |                  |
+| KDDCup2010       |     |     |                  |
+| EdNet-KT1        |     |     |                  |
+
+## NPA (Neural Padagogical Agency) (TODO)
+* Paper: https://arxiv.org/abs/1906.10910
+* Model: Bi-LSTM + Attention
 * Performances: 
 
 ## SAKT (Self-Attentive Knowledge Tracing) (TODO)
 * Paper: https://files.eric.ed.gov/fulltext/ED599186.pdf
+* Model: Transformer
 * Performances: 
 
-## NPA (Neural Padagogical Agency) (TODO)
-* Paper: https://arxiv.org/abs/1906.10910
-* Performances: 
 
-## SAINT (Separated self-AttentIve kNowledge Tracing) (TODO)
-* Paper: https://arxiv.org/pdf/2002.07033.pdf
-* Performances
