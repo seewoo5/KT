@@ -2,7 +2,7 @@ import os
 import torch
 from torch.utils.data import Dataset
 import csv
-from config import args
+from config import ARGS
 from util import create_full_path
 from constant import *
 
@@ -24,12 +24,12 @@ class TripleLineDataset(Dataset):
             if is_correct_list[i] == 0:
                 input_list[i] += QUESTION_NUM[self._dataset_name]
 
-        if len(input_list) > args.seq_size:
-            input_list = input_list[-args.seq_size:]
+        if len(input_list) > ARGS.seq_size:
+            input_list = input_list[-ARGS.seq_size:]
         else:
-            pad_counts = args.seq_size - len(input_list)
+            pad_counts = ARGS.seq_size - len(input_list)
             input_list = [PAD_INDEX] * pad_counts + input_list
-        assert len(input_list) == args.seq_size, "sequence size error"
+        assert len(input_list) == ARGS.seq_size, "sequence size error"
 
         return {
             'label': torch.Tensor([last_is_correct]).long(),

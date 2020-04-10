@@ -8,7 +8,7 @@ from sklearn.metrics import roc_auc_score
 from itertools import repeat, chain, islice
 import os
 
-from config import args
+from config import ARGS
 from network.util_network import ScheduledOptim, NoamOpt
 
 
@@ -55,10 +55,10 @@ class Trainer:
     def train(self):
         train_gen = data.DataLoader(
             dataset=self._train_data, shuffle=True,
-            batch_size=args.train_batch, num_workers=args.num_workers)
+            batch_size=ARGS.train_batch, num_workers=ARGS.num_workers)
         val_gen = data.DataLoader(
             dataset=self._val_data, shuffle=False,
-            batch_size=args.test_batch, num_workers=args.num_workers)
+            batch_size=ARGS.test_batch, num_workers=ARGS.num_workers)
 
         # will train self._num_epochs copies of train data
         to_train = chain.from_iterable(repeat(train_gen, self._num_epochs))
@@ -69,7 +69,7 @@ class Trainer:
         self.step = 0
         while self.step < total_steps:
             rem_steps = total_steps - self.step
-            num_steps = min(rem_steps, args.eval_steps)
+            num_steps = min(rem_steps, ARGS.eval_steps)
             self.step += num_steps
 
             # take num_steps batches from to_train stream
@@ -91,12 +91,12 @@ class Trainer:
     def test(self, weight_num):
         test_gen = data.DataLoader(
             dataset=self._test_data, shuffle=False,
-            batch_size=args.test_batch, num_workers=args.num_workers)
+            batch_size=ARGS.test_batch, num_workers=ARGS.num_workers)
 
         # load best weight
         if self.max_step != 0:
             weight_num = self.max_step
-        weight_path = f'{args.weight_path}{weight_num}.pt'
+        weight_path = f'{ARGS.weight_path}{weight_num}.pt'
         print(f'best weight: {weight_path}')
         self._model.load_state_dict(torch.load(weight_path))
         self._test('Test', test_gen)

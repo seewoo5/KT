@@ -81,12 +81,12 @@ base_args.add_argument('--weight_path', type=str)
 base_args.add_argument('--weight_num', type=str)
 base_args.add_argument('--machine_name', type=str)
 
-model_list = ['DKT', 'DKVMN', 'SAKT']
+model_list = ['DKT', 'DKVMN', 'NPA', 'SAKT']
 
 model_args = parser.add_argument_group('Model args')
 model_args.add_argument('--model', type=str, default='DKT', choices=model_list)
 
-# DKT
+# DKT, NPA
 model_args.add_argument('--num_layers', type=int, default=1)
 model_args.add_argument('--hidden_dim', type=int, default=100)
 model_args.add_argument('--input_dim', type=int, default=100)
@@ -98,6 +98,9 @@ model_args.add_argument('--value_dim', type=int, default=100)
 model_args.add_argument('--summary_dim', type=int, default=100)
 model_args.add_argument('--concept_num', type=int, default=20)
 
+# NPA
+model_args.add_argument('--attention_dim', type=int, default=256)
+model_args.add_argument('--fc_dim', type=int, default=512)
 
 train_args = parser.add_argument_group('Train args')
 train_args.add_argument('--random_seed', type=int, default=1)
@@ -120,11 +123,11 @@ transfer_args.add_argument('--target_freeze', type=str2bool, default='0')
 transfer_args.add_argument('--source_pretrained_weight_path', type=str, default=None)
 transfer_args.add_argument('--target_pretrained_weight_path', type=str, default=None)
 
-args = get_args()
+ARGS = get_args()
 
 
 if __name__ == '__main__':
-    args = get_args()
-    print_args(args, False)
+    ARGS = get_args()
+    print_args(ARGS, False)
 
 

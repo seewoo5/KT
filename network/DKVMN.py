@@ -1,12 +1,14 @@
 import torch
 import torch.nn as nn
 from constant import PAD_INDEX
-from config import args
+from config import ARGS
 from math import sqrt
 
 
 class DKVMN(nn.Module):
-
+    """
+    Extension of Memory-Augmented Neural Network (MANN)
+    """
     def __init__(self, key_dim, value_dim, summary_dim, question_num, concept_num):
         super().__init__()
         self._key_dim = key_dim
@@ -34,7 +36,7 @@ class DKVMN(nn.Module):
                                        out_features=1)
 
         # key memory matrix, transposed and initialized
-        self._key_memory = torch.Tensor(self._key_dim, self._concept_num).to(args.device)
+        self._key_memory = torch.Tensor(self._key_dim, self._concept_num).to(ARGS.device)
         stdev = 1 / (sqrt(self._concept_num + self._key_dim))
         nn.init.uniform_(self._key_memory, -stdev, stdev)
 
@@ -60,7 +62,7 @@ class DKVMN(nn.Module):
         https://github.com/loudinthecloud/pytorch-ntm/blob/master/ntm/memory.py
         """
         # value memory matrix, transposed
-        self._value_memory = torch.Tensor(self._value_dim, self._concept_num).to(args.device)
+        self._value_memory = torch.Tensor(self._value_dim, self._concept_num).to(ARGS.device)
 
         stdev = 1 / (sqrt(self._concept_num + self._key_dim))
         nn.init.uniform_(self._value_memory, -stdev, stdev)
@@ -71,8 +73,8 @@ class DKVMN(nn.Module):
         compute correlation weight of a given question with key memory matrix
         question_id: integer tensor of shape (batch_size)
         """
-        question_vector = self._question_embedding(question_id).to(args.device)
-        return self._softmax(torch.matmul(question_vector, self._key_memory)).to(args.device)
+        question_vector = self._question_embedding(question_id).to(ARGS.device)
+        return self._softmax(torch.matmul(question_vector, self._key_memory)).to(ARGS.device)
 
     def _read(self, question_id):
         """
@@ -82,7 +84,7 @@ class DKVMN(nn.Module):
         question_id = question_id.squeeze(-1)
         correlation_weight = self._compute_correlation_weight(question_id)
         read_content = torch.matmul(self._value_memory, correlation_weight.unsqueeze(-1)).squeeze(-1)
-        return read_content.to(args.device)
+        return read_content.to(ARGS.device)
 
     def _write(self, interaction):
         """
@@ -116,7 +118,7 @@ class DKVMN(nn.Module):
         self._init_value_memory()
 
         # repeat write process seq_size many times with input
-        for i in range(args.seq_size):
+        for i in range(ARGS.seq_size):
             interaction = input[:, i]  # (batch_size)
             self._write(interaction)
 

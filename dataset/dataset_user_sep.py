@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import Dataset
-from config import args
+from config import ARGS
 from constant import *
 
 
@@ -18,11 +18,11 @@ class UserSepDataset(Dataset):
             data = data[:target_index+1]
             user_data_length = len(data)
 
-        if user_data_length > args.seq_size + 1:
-            data = data[-(args.seq_size+1):]
+        if user_data_length > ARGS.seq_size + 1:
+            data = data[-(ARGS.seq_size + 1):]
             pad_counts = 0
         else:
-            pad_counts = args.seq_size + 1 - user_data_length
+            pad_counts = ARGS.seq_size + 1 - user_data_length
 
         # TODO: separate question and response for input?
         input_list = []
@@ -42,7 +42,7 @@ class UserSepDataset(Dataset):
 
         paddings = [PAD_INDEX] * pad_counts
         input_list = paddings + input_list
-        assert len(input_list) == args.seq_size, "sequence size error"
+        assert len(input_list) == ARGS.seq_size, "sequence size error"
 
         return {
             'label': torch.Tensor([last_is_correct]).long(),

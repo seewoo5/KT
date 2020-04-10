@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
-from config import args
+from config import ARGS
 
 
 class ScheduledOptim():
@@ -76,9 +76,9 @@ def load_pretrained_weight_DKT(model, freeze=False, is_source=True):
     is_source: Bool type, flag that represents whether we use the weight
     that pre-trained on source dataset or target dataset
     """
-    pretrained_weight_path = args.source_pretrained_weight_path if is_source \
-                             else args.target_pretrained_weight_path
-    weight = torch.load(pretrained_weight_path, map_location=args.device)
+    pretrained_weight_path = ARGS.source_pretrained_weight_path if is_source \
+                             else ARGS.target_pretrained_weight_path
+    weight = torch.load(pretrained_weight_path, map_location=ARGS.device)
     for name, param in model.named_parameters():
         if is_source == (name.split('.')[0] == '_lstm'):
             # If is_source == True, then load LSTM weights

@@ -4,14 +4,16 @@ from constant import PAD_INDEX
 
 
 class DKT(nn.Module):
-
-    def __init__(self, input_dim, hidden_dim, num_layers, num_question, dropout):
+    """
+    LSTM based model
+    """
+    def __init__(self, input_dim, hidden_dim, num_layers, question_num, dropout):
         super().__init__()
         self._hidden_dim = hidden_dim
         self._num_layers = num_layers
         self._lstm = nn.LSTM(input_dim, hidden_dim, num_layers=num_layers, batch_first=True, dropout=dropout)
-        self._encoder = nn.Embedding(num_embeddings=2*num_question+1, embedding_dim=input_dim, padding_idx=PAD_INDEX)
-        self._decoder = nn.Linear(hidden_dim, num_question)
+        self._encoder = nn.Embedding(num_embeddings=2*question_num+1, embedding_dim=input_dim, padding_idx=PAD_INDEX)
+        self._decoder = nn.Linear(hidden_dim, question_num)
 
     def init_hidden(self, batch_size):
         """
@@ -31,7 +33,7 @@ class DKT(nn.Module):
         batch_size = input.shape[0]
         hidden = self.init_hidden(batch_size)
         input = self._encoder(input)
-        output, hidden = self._lstm(input, (hidden[0].detach(), hidden[1].detach()))
+        output, _ = self._lstm(input, (hidden[0].detach(), hidden[1].detach()))
         output = self._decoder(output[:, -1, :])
         output = torch.gather(output, -1, target_id)
         return output
