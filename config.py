@@ -66,7 +66,7 @@ def print_args(params):
     print(info)
 
 
-dataset_list = ['modified_AAAI20', 'ASSISTments2009', 'ASSISTments2012', 'ASSISTments2015', 'ASSISTmentsChall',
+dataset_list = ['ASSISTments2009', 'ASSISTments2012', 'ASSISTments2015', 'ASSISTmentsChall',
                 'STATICS', 'KDDCup', 'Junyi', 'EdNet-KT1']
 
 base_args = parser.add_argument_group('Base args')
