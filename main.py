@@ -6,7 +6,6 @@ from network.DKVMN import DKVMN
 from network.NPA import NPA
 from constant import QUESTION_NUM
 from trainer import Trainer
-from network.util_network import load_pretrained_weight_DKT
 import numpy as np
 
 
@@ -14,10 +13,10 @@ def get_model():
     if ARGS.model == 'DKT':
         model = DKT(ARGS.input_dim, ARGS.hidden_dim, ARGS.num_layers, QUESTION_NUM[ARGS.target_dataset_name],
                     ARGS.dropout).to(ARGS.device)
-        if ARGS.source_pretrained_weight_path is not None:
-            load_pretrained_weight_DKT(model, ARGS.source_freeze, is_source=True)  # from source: LSTM weight
-        if ARGS.target_pretrained_weight_path is not None:
-            load_pretrained_weight_DKT(model, ARGS.target_freeze, is_source=False)  # from target: encoder & decoder weight
+        # if ARGS.source_pretrained_weight_path is not None:
+        #     load_pretrained_weight_DKT(model, ARGS.source_freeze, is_source=True)  # from source: LSTM weight
+        # if ARGS.target_pretrained_weight_path is not None:
+        #     load_pretrained_weight_DKT(model, ARGS.target_freeze, is_source=False)  # from target: encoder & decoder weight
 
     elif ARGS.model == 'DKVMN':
         model = DKVMN(ARGS.key_dim, ARGS.value_dim, ARGS.summary_dim, QUESTION_NUM[ARGS.target_dataset_name],

@@ -29,6 +29,7 @@ class DKT(nn.Module):
         get model output (before taking sigmoid) for target_id
         input: (batch_size, sequence_size)
         target_id: (batch_size)
+        return output, a tensor of shape ()
         """
         batch_size = input.shape[0]
         hidden = self.init_hidden(batch_size)

@@ -6,7 +6,7 @@ from config import ARGS
 
 class FC(nn.Module):
     """
-    Last FC layers of NPA
+    Last 4 FC layers of NPA
     """
     def __init__(self, user_question_dim, fc_dim):
 
@@ -64,17 +64,17 @@ class NPA(nn.Module):
         self._attention_weight = nn.Linear(in_features=attn_dim, out_features=1, bias=False)
 
         # FC layers
-        self._fc_layers = FC(attn_dim+input_dim, fc_dim)
+        self._fc_layers = FC(2*hidden_dim+input_dim, fc_dim)
 
         # activation functions
         self._tanh = nn.Tanh()
         self._softmax = nn.Softmax(dim=-1)
-        self._relu = nn.ReLU()
 
     def init_hidden(self, batch_size):
         """
         initialize hidden layer as zero tensor
         batch_size: single integer
+        need to multiply 2 on num_layers since we'are using Bi-LSTM
         """
         weight = next(self.parameters())
         return (weight.new_zeros(2*self._num_layers, batch_size, self._hidden_dim),
@@ -114,13 +114,13 @@ class NPA(nn.Module):
         """
         Additive attention is used
         lstm_output: (batch_size, sequence_size, 2*hidden_dim)
-        return user_vector, a tensor of shape (batch_size, attn_dim)
+        return user_vector, a tensor of shape (batch_size, 1, 2*hidden_dim)
         """
         attention_score = self._attention_lstm(lstm_output) + self._attention_question(question_vector)
         attention_score = self._tanh(attention_score)
-        attention_score = self._attention_weight(attention_score)
-        alpha = self._softmax(attention_score)
-        return torch.mul(alpha, lstm_output).sum(1)
+        attention_score = self._attention_weight(attention_score).squeeze(-1)
+        alpha = self._softmax(attention_score).unsqueeze(1)
+        return torch.matmul(alpha, lstm_output)
 
     def forward(self, input, target_id):
         """
@@ -128,17 +128,25 @@ class NPA(nn.Module):
         input: (batch_size, sequence_size)
         target_id: (batch_size)
         return output (response correctness, before taking sigmoid),
-        a tensor of shape (batch_size)
+        a tensor of shape (batch_size, 1)
         """
         batch_size = input.shape[0]
         hidden = self.init_hidden(batch_size)
         input = self._embedding(input)
         question_vector = self._question_embedding_layer(target_id)
+        # question_vector: (batch_size, 1, input_dim)
+
         # Bi-LSTM layer
         output, _ = self._lstm(input, (hidden[0].detach(), hidden[1].detach()))
+        # output: (batch_size, sequence_size, 2*hidden_dim)
+
         # Attention layer
         user_vector = self._attention(output, question_vector)
+        # user_vector: (batch_size, 2*hidden_dim)
+
         # FC layers
-        user_question_vector = torch.cat([user_vector, question_vector.squeeze(1)], dim=-1)
+        user_question_vector = torch.cat([user_vector, question_vector], dim=-1).squeeze(1)
+        # user_question_vector: (batch_size, 2*hidden_dim+input_dim)
         output = self._fc_layers(user_question_vector)
+        # output: (batch_size, 1)
         return output

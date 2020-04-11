@@ -1,7 +1,4 @@
-import torch
-import torch.nn as nn
 import numpy as np
-from config import ARGS
 
 
 class ScheduledOptim():
@@ -67,34 +64,3 @@ class NoamOpt:
         return self.factor * \
                (self.model_size ** (-0.5) *
                 min(step ** (-0.5), step * self.warmup ** (-1.5)))
-
-
-def load_pretrained_weight_DKT(model, freeze=False, is_source=True):
-    """
-    load pre-trained weight
-    freeze: Bool type, freeze corresponding weight if freeze == True
-    is_source: Bool type, flag that represents whether we use the weight
-    that pre-trained on source dataset or target dataset
-    """
-    pretrained_weight_path = ARGS.source_pretrained_weight_path if is_source \
-                             else ARGS.target_pretrained_weight_path
-    weight = torch.load(pretrained_weight_path, map_location=ARGS.device)
-    for name, param in model.named_parameters():
-        if is_source == (name.split('.')[0] == '_lstm'):
-            # If is_source == True, then load LSTM weights
-            # Otherwise, load encoder & decoder weights
-            param.data.copy_(weight[name])
-            if freeze == True:
-                # freeze pre-trained weight
-                param.requires_grad = False
-
-
-def load_pretrained_weight_DKVMN(model, freeze=False, is_source=True):
-    """
-    load pre-trained weight
-    :param model:
-    :param freeze:
-    :param is_source:
-    :return:
-    """
-    pass

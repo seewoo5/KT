@@ -138,12 +138,10 @@ class Trainer:
             labels.extend(label.squeeze(-1).data.cpu().numpy())
             outs.extend(out.squeeze(-1).data.cpu().numpy())
 
-
         acc = num_corrects / num_total
         auc = roc_auc_score(labels, outs)
         loss = np.mean(losses)
         training_time = time.time() - start_time
-
 
         print(f'correct: {num_corrects}, total: {num_total}')
         print(f'[Train]     time: {training_time:.2f}, loss: {loss:.4f}, acc: {acc:.4f}, auc: {auc:.4f}')
