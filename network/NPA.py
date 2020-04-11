@@ -18,6 +18,11 @@ class FC(nn.Module):
 
         self._relu = nn.ReLU()
 
+        # Xavier uniform initialization
+        for p in self.parameters():
+            if p.dim() > 1:
+                nn.init.xavier_uniform(p)
+
     def forward(self, x):
         x = self._fc1(x)
         x = self._relu(x)
@@ -69,6 +74,11 @@ class NPA(nn.Module):
         # activation functions
         self._tanh = nn.Tanh()
         self._softmax = nn.Softmax(dim=-1)
+
+        # Xavier uniform initialization
+        for p in self.parameters():
+            if p.dim() > 1:
+                nn.init.xavier_uniform(p)
 
     def init_hidden(self, batch_size):
         """
