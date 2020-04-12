@@ -78,7 +78,7 @@ class NPA(nn.Module):
         # Xavier uniform initialization
         for p in self.parameters():
             if p.dim() > 1:
-                nn.init.xavier_uniform(p)
+                nn.init.xavier_uniform_(p)
 
     def init_hidden(self, batch_size):
         """
