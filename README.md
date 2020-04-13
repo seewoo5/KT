@@ -20,6 +20,7 @@ For each user, `{user_id}.csv` contains two columns (with headers): tag(skill_id
 
 * For ASSISTments2009, ASSISTments2015, and STATICS data we use the same data (with different format) that used in [this](https://github.com/jennyzhang0215/DKVMN) DKVMN implementation. Also, two files with same name (same `user_id`) but belong to different subdirectories may not coincides in this case, which actually does not important when we train & test models. 
 * Currently, ASSISTments2012 and KDDCup2010 dataset is not pre-processed yet. 
+* For EdNet-KT1, the dataset has only one split. 
 
 ## Usage
 
@@ -27,30 +28,43 @@ For each user, `{user_id}.csv` contains two columns (with headers): tag(skill_id
 python main.py --num_workers=8 --gpu=0 --device=cuda --model=DKT --num_epochs=6 
 --eval_steps=5000 --train_batch=2048 --test_batch=2048 --seq_size=200 
 --input_dim=100 --hidden_dim=100 --name=ASSISTments2009_DKT_dim_100_100 
---target_dataset_name=ASSISTments2009 --cross_validation=1
+--dataset_name=ASSISTments2009 --cross_validation=1
 ```
 
 Here are descriptions of arguments:
 
-* `num_workers`: number of workers for gpu training
-* `gpu`: number(s) of gpu
+* `name`: name of the run. More precisely, the weight of the best model will be saved in the directory `weight/{ARGS.name}/`. 
+* `gpu`: number(s) of gpu. 
 * `device`: device. cpu, cuda, or others. 
+* `base_path`: the path where datasets are located. 
+* `num_workers`: number of workers for gpu training.
+* `dataset_name`: the name of the benchmark dataset. Currently, ASSISTments2009, ASSISTments2015, ASSISTmentsChall, STATICS, Junyi, and EdNet-KT1 are available. 
+
 * `model`: name of the model. DKT, DKVMN, or NPA. (SAKT is not available yet)
+* `num_layers`: number of LSTM layers, for DKT and NPA. Set to be 1 as a default value. 
+* `input_dim`: input embedding dimension of interactions, for DKT and NPA.
+* `hidden_dim`: hidden dimension of LSTM models, for DKT and NPA.
+* `key_dim`: dimension of key vectors of DKVMN.
+* `value_dim`: dimension of value vectors of DKVMN.
+* `summary_dim`: dimension of the last FC layer of DKVMN.
+* `concept_num`: number of latent concepts, for DKVMN.
+* `attention_dim`: dimension of the attention layer of NPA.
+* `fc_dim`: largest dimension for the last FC layers of NPA.
+* `dropout`: dropout rate of the model.
+
+* `random_seed`: random seed for initialization, for reproducibility. Set to be 1 as default. 
 * `num_epochs`: number of training epochs. 
 * `eval_steps`: number of steps to evaluate trained model on validation set. The model weight with best performance will be saved. 
-* `train_batch`: batch size while training
-* `test_batch`: batch size while testing
+* `train_batch`: batch size while training.
+* `test_batch`: batch size while testing.
+* `lr`: learning rate. 
 * `seq_size`: length of interaction sequence to be feeded into models. The sequence whose length is shorter than `seq_size` will be padded. 
-* `input_dim`: input embedding dimension of interactions, for DKT and NPA
-* `hidden_dim`: hidden dimension of LSTM models, for DKT and NPA
-* `key_dim`: dimension of key vectors of DKVMN
-* `value_dim`: dimension of value vectors of DKVMN
-* `summary_dim`: dimension of last FC layer of DKVMN
-* `concept_num`: number of latent concepts, for DKVMN
-* `fc_dim`: largest dimension for last FC layers of NPA
-* `target_dataset`: the name of the benchmark dataset. Currently, ASSISTments2009, ASSISTments2015, ASSISTmentsChall, STATICS, Junyi, and EdNet-KT1 are available. 
+* `cross_validation`: if `cross_validation` is 0, then the model is trained & tested only on the first dataset. If `cross_validation` is 1, then the model is trained & tested on all 5 splits, and give average results (with standard deviation). 
 
+## Common features
 
+* All models are trained with Noam optimizer. 
+* For Junyi Academy and EdNet-KT1, the model is trained & tested only on one train/val/test split, since dataset is huge enough and it takes long time for cross-validation. 
 
 ## DKT (Deep Knowledge Tracing)
 * Paper: https://web.stanford.edu/~cpiech/bio/papers/deepKnowledgeTracing.pdf
@@ -97,6 +111,8 @@ Here are descriptions of arguments:
 | STATICS          | 81.38 ± 0.14  | 83.1 ± 0.25  | input_dim=100, hidden_dim=100, attention_dim=100, fc_dim=200 |
 | Junyi Academy    |  85.57   |  81.10   |     input_dim=100, hidden_dim=100, attention_dim=100, fc_dim=200             |
 | EdNet-KT1        |  73.05   |  77.58   |    input_dim=100, hidden_dim=100, attention_dim=100, fc_dim=200              |
+
+* All models are trained with batch size 2048 and sequence size 200. 
 
 ## SAKT (Self-Attentive Knowledge Tracing) (TODO)
 * Paper: https://files.eric.ed.gov/fulltext/ED599186.pdf
