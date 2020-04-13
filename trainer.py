@@ -45,11 +45,11 @@ class Trainer:
         self.step = 0
         self._threshold = 0.5
         self.max_step = 0
-        self.max_acc = 0
-        self.max_auc = 0
+        self.max_acc = 0.0
+        self.max_auc = 0.0
 
-        self.test_acc = 0
-        self.test_auc = 0
+        self.test_acc = 0.0
+        self.test_auc = 0.0
 
     # train model and choose weight with max auc on validation dataset
     def train(self):
