@@ -1,6 +1,6 @@
 # Knowledge Tracing Models
 
-*PyTorch implementations of various Knowledge Tracing models* 
+*Implementations of various Knowledge Tracing models in [PyTorch](https://github.com/pytorch/pytorch)* 
 
 ## Pre-processed Dataset
 * Download Link: https://bit.ly/2w7J3On
@@ -19,45 +19,84 @@ For each user, `{user_id}.csv` contains two columns (with headers): tag(skill_id
 | EdNet-KT1        |       6:2:2           | https://github.com/riiid/ednet |
 
 * For ASSISTments2009, ASSISTments2015, and STATICS data we use the same data (with different format) that used in [this](https://github.com/jennyzhang0215/DKVMN) DKVMN implementation. Also, two files with same name (same `user_id`) but belong to different subdirectories may not coincides in this case, which actually does not important when we train & test models. 
+* Currently, ASSISTments2012 and KDDCup2010 dataset is not pre-processed yet. 
+
+## Usage
+
+```
+python main.py --num_workers=8 --gpu=0 --device=cuda --model=DKT --num_epochs=6 
+--eval_steps=5000 --train_batch=2048 --test_batch=2048 --seq_size=200 
+--input_dim=100 --hidden_dim=100 --name=ASSISTments2009_DKT_dim_100_100 
+--target_dataset_name=ASSISTments2009 --cross_validation=1
+```
+
+Here are descriptions of arguments:
+
+* `num_workers`: number of workers for gpu training
+* `gpu`: number(s) of gpu
+* `device`: device. cpu, cuda, or others. 
+* `model`: name of the model. DKT, DKVMN, or NPA. (SAKT is not available yet)
+* `num_epochs`: number of training epochs. 
+* `eval_steps`: number of steps to evaluate trained model on validation set. The model weight with best performance will be saved. 
+* `train_batch`: batch size while training
+* `test_batch`: batch size while testing
+* `seq_size`: length of interaction sequence to be feeded into models. The sequence whose length is shorter than `seq_size` will be padded. 
+* `input_dim`: input embedding dimension of interactions, for DKT and NPA
+* `hidden_dim`: hidden dimension of LSTM models, for DKT and NPA
+* `key_dim`: dimension of key vectors of DKVMN
+* `value_dim`: dimension of value vectors of DKVMN
+* `summary_dim`: dimension of last FC layer of DKVMN
+* `concept_num`: number of latent concepts, for DKVMN
+* `fc_dim`: largest dimension for last FC layers of NPA
+* `target_dataset`: the name of the benchmark dataset. Currently, ASSISTments2009, ASSISTments2015, ASSISTmentsChall, STATICS, Junyi, and EdNet-KT1 are available. 
+
+
 
 ## DKT (Deep Knowledge Tracing)
 * Paper: https://web.stanford.edu/~cpiech/bio/papers/deepKnowledgeTracing.pdf
-* Model: RNN, LSTM
+* Model: RNN, LSTM (only LSTM is implemented)
 * Performances: 
 
 | Dataset          | ACC (%) | AUC (%) | Hyper Parameters |
 |------------------|-----|-----|------------------|
 | ASSISTments2009  | 77.02 ± 0.07 | 81.81 ± 0.1 | input_dim=100, hidden_dim=100 |
 | ASSISTments2015  | 74.94 ± 0.04 |  72.94 ± 0.05 | input_dim=100, hidden_dim=100 |
-| ASSISTments2012  |     |     |                  |
 | ASSISTmentsChall |  68.67 ± 0.09 | 72.29 ± 0.06  | input_dim=100, hidden_dim=100 |
 | STATICS          |  81.27 ± 0.06 | 82.87 ± 0.1   | input_dim=100, hidden_dim=100 |
-| Junyi Academy    |     |     |                  |
-| KDDCup2010       |     |     |                  |
-| EdNet-KT1        |     |     |                  |
+| Junyi Academy    |  85.4   | 80.58    |  input_dim=100, hidden_dim=100  |
+| EdNet-KT1        | 72.72    | 76.99    | input_dim=100, hidden_dim=100  |
 
 * All models are trained with batch size 2048 and sequence size 200. 
 
-## DKVMN (Dynamic Key-Value Memory Network) (TODO)
+## DKVMN (Dynamic Key-Value Memory Network)
 * Paper: http://papers.www2017.com.au.s3-website-ap-southeast-2.amazonaws.com/proceedings/p765.pdf
 * Model: Extension of Memory-Augmented Neural Network (MANN)
 * Performances: 
 
 | Dataset          | ACC (%) | AUC (%) | Hyper Parameters |
 |------------------|-----|-----|------------------|
-| ASSISTments2009  | |  | |
-| ASSISTments2015  | |   |  |
-| ASSISTments2012  |     |     |                  |
-| ASSISTmentsChall |   |  |  |
-| STATICS          |   |   |  |
-| Junyi Academy    |     |     |                  |
-| KDDCup2010       |     |     |                  |
-| EdNet-KT1        |     |     |                  |
+| ASSISTments2009  |75.61 ± 0.21 | 79.56 ± 0.29 |key_dim = 50, value_dim = 200, summary_dim = 50, concept_num = 20, batch_size = 1024 |
+| ASSISTments2015  |74.71 ± 0.02 | 71.57 ± 0.08  | key_dim = 50, value_dim = 100, summary_dim = 50, concept_num = 20, batch_size = 2048 |
+| ASSISTmentsChall | 67.16 ± 0.05  | 67.38 ± 0.07 | key_dim = 50, value_dim = 100, summary_dim = 50, concept_num = 20, batch_size = 2048 |
+| STATICS          | 80.66 ± 0.09  | 81.16 ± 0.08  | key_dim = 50, value_dim = 100, summary_dim = 50, concept_num = 50,  batch_size = 1024 |
+| Junyi Academy    | 85.04    |  79.68 |     key_dim = 50, value_dim = 100, summary_dim = 50, concept_num = 50, batch_size = 512             |
+| EdNet-KT1        | 72.32    |  76.48   |    key_dim = 100, value_dim = 100, summary_dim = 100, concept_num = 100, batch_size = 256 |
 
-## NPA (Neural Padagogical Agency) (TODO)
+* Due to memory issues, not all models are trained with batch size 2048.
+
+## NPA (Neural Padagogical Agency)
 * Paper: https://arxiv.org/abs/1906.10910
 * Model: Bi-LSTM + Attention
 * Performances: 
+
+| Dataset          | ACC (%) | AUC (%) | Hyper Parameters |
+|------------------|-----|-----|------------------|
+| ASSISTments2009  | 77.11 ± 0.08 | 81.82 ± 0.13 |input_dim=100, hidden_dim=100, attention_dim=100, fc_dim=200 |
+| ASSISTments2015  | 75.02 ± 0.05| 72.94 ± 0.08  |input_dim=100, hidden_dim=100, attention_dim=100, fc_dim=200  |
+| ASSISTmentsChall | 69.34 ± 0.03  | 73.26 ± 0.03 | input_dim=100, hidden_dim=100, attention_dim=100, fc_dim=200 |
+| STATICS          | 81.38 ± 0.14  | 83.1 ± 0.25  | input_dim=100, hidden_dim=100, attention_dim=100, fc_dim=200 |
+| Junyi Academy    |  85.57   |  81.10   |     input_dim=100, hidden_dim=100, attention_dim=100, fc_dim=200             |
+| EdNet-KT1        |  73.05   |  77.58   |    input_dim=100, hidden_dim=100, attention_dim=100, fc_dim=200              |
 
 ## SAKT (Self-Attentive Knowledge Tracing) (TODO)
 * Paper: https://files.eric.ed.gov/fulltext/ED599186.pdf
