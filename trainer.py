@@ -146,8 +146,6 @@ class Trainer:
         print(f'correct: {num_corrects}, total: {num_total}')
         print(f'[Train]     time: {training_time:.2f}, loss: {loss:.4f}, acc: {acc:.4f}, auc: {auc:.4f}')
 
-        # wandb.log({'Train acc': acc, 'Train loss': loss}, step=self.step)
-
     # takes iterable
     def _test(self, name, batches):
         start_time = time.time()
@@ -188,12 +186,4 @@ class Trainer:
         elif name == 'Test':
             self.test_acc = acc
             self.test_auc = auc
-
-        # wandb.log({
-        #     'Test acc': acc,
-        #     'Test auc': auc,
-        #     'Test loss': loss,
-        #     'Best acc': self.max_acc,
-        #     'Best auc': self.max_auc
-        # }, step=self.step)
 

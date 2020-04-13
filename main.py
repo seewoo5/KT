@@ -11,28 +11,31 @@ import numpy as np
 
 def get_model():
     if ARGS.model == 'DKT':
-        model = DKT(ARGS.input_dim, ARGS.hidden_dim, ARGS.num_layers, QUESTION_NUM[ARGS.target_dataset_name],
+        model = DKT(ARGS.input_dim, ARGS.hidden_dim, ARGS.num_layers, QUESTION_NUM[ARGS.dataset_name],
                     ARGS.dropout).to(ARGS.device)
+        d_model = ARGS.hidden_dim
 
     elif ARGS.model == 'DKVMN':
-        model = DKVMN(ARGS.key_dim, ARGS.value_dim, ARGS.summary_dim, QUESTION_NUM[ARGS.target_dataset_name],
+        model = DKVMN(ARGS.key_dim, ARGS.value_dim, ARGS.summary_dim, QUESTION_NUM[ARGS.dataset_name],
                       ARGS.concept_num).to(ARGS.device)
+        d_model = ARGS.value_dim
 
     elif ARGS.model == 'NPA':
         model = NPA(ARGS.input_dim, ARGS.hidden_dim, ARGS.attention_dim, ARGS.fc_dim,
-                    ARGS.num_layers, QUESTION_NUM[ARGS.target_dataset_name], ARGS.dropout).to(ARGS.device)
+                    ARGS.num_layers, QUESTION_NUM[ARGS.dataset_name], ARGS.dropout).to(ARGS.device)
+        d_model = ARGS.hidden_dim
 
     else:
         raise NotImplementedError
 
-    return model
+    return model, d_model
 
 
 def run(i):
     """
     i: single integer represents dataset number
     """
-    user_base_path = f'{ARGS.base_path}/{ARGS.target_dataset_name}/processed'
+    user_base_path = f'{ARGS.base_path}/{ARGS.dataset_name}/processed'
 
     train_data_path = f'{user_base_path}/{i}/train/'
     val_data_path = f'{user_base_path}/{i}/val/'
@@ -42,18 +45,18 @@ def run(i):
     val_sample_infos, num_of_val_user = util.get_data_user_sep(val_data_path)
     test_sample_infos, num_of_test_user = util.get_data_user_sep(test_data_path)
 
-    train_data = UserSepDataset('train', train_sample_infos, ARGS.target_dataset_name)
-    val_data = UserSepDataset('val', val_sample_infos, ARGS.target_dataset_name)
-    test_data = UserSepDataset('test', test_sample_infos, ARGS.target_dataset_name)
+    train_data = UserSepDataset('train', train_sample_infos, ARGS.dataset_name)
+    val_data = UserSepDataset('val', val_sample_infos, ARGS.dataset_name)
+    test_data = UserSepDataset('test', test_sample_infos, ARGS.dataset_name)
 
     print(f'Train: # of users: {num_of_train_user}, # of samples: {len(train_sample_infos)}')
     print(f'Validation: # of users: {num_of_val_user}, # of samples: {len(val_sample_infos)}')
     print(f'Test: # of users: {num_of_test_user}, # of samples: {len(test_sample_infos)}')
 
-    model = get_model()
+    model, d_model = get_model()
 
     trainer = Trainer(model, ARGS.device, ARGS.warm_up_step_count,
-                      ARGS.hidden_dim, ARGS.num_epochs, ARGS.weight_path,
+                      d_model, ARGS.num_epochs, ARGS.weight_path,
                       ARGS.lr, train_data, val_data, test_data)
     trainer.train()
     trainer.test(0)

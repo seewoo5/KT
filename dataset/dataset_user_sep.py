@@ -24,7 +24,6 @@ class UserSepDataset(Dataset):
         else:
             pad_counts = ARGS.seq_size + 1 - user_data_length
 
-        # TODO: separate question and response for input?
         input_list = []
         for idx, line in enumerate(data):
             line = line.rstrip().split(',')

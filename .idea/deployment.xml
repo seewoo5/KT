@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="root@210.116.109.68:21021">
+    <serverData>
+      <paths name="root@210.116.109.68:21021">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/root/project/DKT_new" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

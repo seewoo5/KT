@@ -42,7 +42,7 @@ class NPA(nn.Module):
     Bi-LSTM + Attention based model
     """
     def __init__(self, input_dim=128, hidden_dim=128, attn_dim=256, fc_dim=512,
-                 num_layers=1, question_num=QUESTION_NUM[ARGS.target_dataset_name], dropout=0.0):
+                 num_layers=1, question_num=QUESTION_NUM[ARGS.dataset_name], dropout=0.0):
 
         super().__init__()
         self._hidden_dim = hidden_dim

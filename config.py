@@ -28,9 +28,6 @@ def get_args():
     params = parser.parse_args()
     params.run_script = get_run_script()
 
-    # tag&save
-    params.tags = [e for e in params.tags.split(',')] if params.tags is not None else ['test']
-
     if params.gpu != 'none':
         os.environ["CUDA_VISIBLE_DEVICES"] = params.gpu
 
@@ -70,16 +67,13 @@ dataset_list = ['ASSISTments2009', 'ASSISTments2012', 'ASSISTments2015', 'ASSIST
                 'STATICS', 'KDDCup', 'Junyi', 'EdNet-KT1']
 
 base_args = parser.add_argument_group('Base args')
-base_args.add_argument('--tags', type=str, default='none')
-base_args.add_argument('--project', type=str, default="DKT")
 base_args.add_argument('--name', type=str, default="name")
 base_args.add_argument('--device', type=str, default='cpu')
 base_args.add_argument('--gpu', type=str, default='none')
 base_args.add_argument('--num_workers', type=int, default=1)
 base_args.add_argument('--base_path', type=str, default='/shared/benchmarks/')
 base_args.add_argument('--weight_path', type=str)
-base_args.add_argument('--weight_num', type=str)
-base_args.add_argument('--machine_name', type=str)
+base_args.add_argument('--dataset_name', type=str, default='ASSISTments2009', choices=dataset_list)
 
 model_list = ['DKT', 'DKVMN', 'NPA', 'SAKT']
 
@@ -110,24 +104,14 @@ train_args.add_argument('--test_batch', type=int, default=64)
 train_args.add_argument('--lr', type=float, default=0.001)
 train_args.add_argument('--seq_size', type=int, default=200)
 train_args.add_argument('--warm_up_step_count', type=int, default=4000)
-train_args.add_argument('--is_warm_up', type=str2bool, default='1')
 train_args.add_argument('--eval_steps', type=int, default=5)
-train_args.add_argument('--max_grad_norm', type=float, default=20)
 train_args.add_argument('--cross_validation', type=str2bool, default='0')
-
-transfer_args = parser.add_argument_group('Transfer args')
-transfer_args.add_argument('--source_dataset_name', type=str, default='modified_AAAI20', choices=dataset_list)
-transfer_args.add_argument('--target_dataset_name', type=str, default='ASSISTments2009', choices=dataset_list)
-transfer_args.add_argument('--source_freeze', type=str2bool, default='0')
-transfer_args.add_argument('--target_freeze', type=str2bool, default='0')
-transfer_args.add_argument('--source_pretrained_weight_path', type=str, default=None)
-transfer_args.add_argument('--target_pretrained_weight_path', type=str, default=None)
 
 ARGS = get_args()
 
 
 if __name__ == '__main__':
     ARGS = get_args()
-    print_args(ARGS, False)
+    print_args(ARGS)
 
 
