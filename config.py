@@ -80,7 +80,7 @@ model_list = ['DKT', 'DKVMN', 'NPA', 'SAKT']
 model_args = parser.add_argument_group('Model args')
 model_args.add_argument('--model', type=str, default='DKT', choices=model_list)
 
-# DKT, NPA
+# DKT, NPA, SAKT
 model_args.add_argument('--num_layers', type=int, default=1)
 model_args.add_argument('--hidden_dim', type=int, default=100)
 model_args.add_argument('--input_dim', type=int, default=100)
@@ -95,6 +95,9 @@ model_args.add_argument('--concept_num', type=int, default=20)
 # NPA
 model_args.add_argument('--attention_dim', type=int, default=256)
 model_args.add_argument('--fc_dim', type=int, default=512)
+
+# SAKT
+model_args.add_argument('--num_head', type=int, default=5)
 
 train_args = parser.add_argument_group('Train args')
 train_args.add_argument('--random_seed', type=int, default=1)

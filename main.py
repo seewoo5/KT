@@ -4,6 +4,7 @@ from dataset.dataset_user_sep import UserSepDataset
 from network.DKT import DKT
 from network.DKVMN import DKVMN
 from network.NPA import NPA
+from network.SAKT import SAKT
 from constant import QUESTION_NUM
 from trainer import Trainer
 import numpy as np
@@ -23,6 +24,11 @@ def get_model():
     elif ARGS.model == 'NPA':
         model = NPA(ARGS.input_dim, ARGS.hidden_dim, ARGS.attention_dim, ARGS.fc_dim,
                     ARGS.num_layers, QUESTION_NUM[ARGS.dataset_name], ARGS.dropout).to(ARGS.device)
+        d_model = ARGS.hidden_dim
+
+    elif ARGS.model == 'SAKT':
+        model = SAKT(ARGS.hidden_dim, QUESTION_NUM[ARGS.dataset_name], ARGS.num_layers,
+                     ARGS.num_head, ARGS.dropout).to(ARGS.device)
         d_model = ARGS.hidden_dim
 
     else:

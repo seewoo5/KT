@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 
 
 class ScheduledOptim():
@@ -64,3 +65,15 @@ class NoamOpt:
         return self.factor * \
                (self.model_size ** (-0.5) *
                 min(step ** (-0.5), step * self.warmup ** (-1.5)))
+
+
+# For Transformer-based models
+def get_pad_mask(seq, pad_idx):
+    return (seq != pad_idx).unsqueeze(-2)
+
+
+def get_subsequent_mask(seq):
+    ''' For masking out the subsequent info. '''
+    sz_b, len_s = seq.size()
+    subsequent_mask = (1 - torch.triu(torch.ones((1, len_s, len_s), device=seq.device), diagonal=1)).bool()
+    return subsequent_mask
