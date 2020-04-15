@@ -70,23 +70,41 @@ class PositionwiseFeedForward(nn.Module):
         return self.w_2(self.dropout(F.relu(self.w_1(x))))
 
 
+class SAKTLayer(nn.Module):
+    """
+    Single Encoder block of SAKT
+    """
+    def __init__(self, hidden_dim, num_head, dropout):
+        super().__init__()
+        self._self_attn = MultiHeadedAttention(num_head, hidden_dim, dropout)
+        self._ffn = PositionwiseFeedForward(hidden_dim, hidden_dim, dropout)
+        self._norm = nn.LayerNorm(hidden_dim, eps=1e-6)
+
+    def forward(self, query, key, mask=None):
+        """
+        query: question embeddings
+        key: interaction embeddings
+        """
+        output = self._self_attn(query=query, key=key, value=key, mask=mask)
+        output = self._norm(key + output)
+
+        output = self._ffn(output)
+        output = self._norm(output + self._ffn(output))
+        return output
+
+
 class SAKT(nn.Module):
     """
     Transformer-based
     all hidden dimensions (d_k, d_v, ...) are the same as hidden_dim
-    single attention block
     """
     def __init__(self, hidden_dim, question_num, num_layers, num_head, dropout):
         super().__init__()
         self._hidden_dim = hidden_dim
         self._question_num = question_num
 
-        # self-attention & feed-forward networks
-        self._self_attn = MultiHeadedAttention(num_head, hidden_dim, dropout)
-        self._ffn = PositionwiseFeedForward(hidden_dim, hidden_dim, dropout)
-
-        # Layer Normalization
-        self._norm = nn.LayerNorm(hidden_dim, eps=1e-6)
+        # Blocks
+        self._layers = clones(SAKTLayer(hidden_dim, num_head, dropout), num_layers)
 
         # prediction layer
         self._prediction = nn.Linear(hidden_dim, 1)
@@ -134,15 +152,9 @@ class SAKT(nn.Module):
         mask = get_pad_mask(question_id, PAD_INDEX) & get_subsequent_mask(question_id)
         x = interaction_vector + position_vector
 
-        output = self._self_attn(query=question_vector,
-                                 key=x,
-                                 value=x,
-                                 mask=mask)
-        output = self._norm(x + output)
+        for layer in self._layers:
+            x = layer(query=question_vector, key=x, mask=mask)
 
-        output = self._ffn(output)
-        output = self._norm(output + self._ffn(output))
-
-        output = self._prediction(output)
+        output = self._prediction(x)
         output = output[:, -1, :]
         return output
