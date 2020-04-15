@@ -1,5 +1,7 @@
 import numpy as np
 import torch
+import torch.nn as nn
+import copy
 
 
 class ScheduledOptim():
@@ -77,3 +79,8 @@ def get_subsequent_mask(seq):
     sz_b, len_s = seq.size()
     subsequent_mask = (1 - torch.triu(torch.ones((1, len_s, len_s), device=seq.device), diagonal=1)).bool()
     return subsequent_mask
+
+
+def clones(module, N):
+    "Produce N identical layers."
+    return nn.ModuleList([copy.deepcopy(module) for _ in range(N)])
