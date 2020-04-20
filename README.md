@@ -58,6 +58,7 @@ Here are descriptions of arguments:
 * `train_batch`: batch size while training.
 * `test_batch`: batch size while testing.
 * `lr`: learning rate. 
+* `warmup_step`: warmup step for Noam optimizer. 
 * `seq_size`: length of interaction sequence to be feeded into models. The sequence whose length is shorter than `seq_size` will be padded. 
 * `cross_validation`: if `cross_validation` is 0, then the model is trained & tested only on the first dataset. If `cross_validation` is 1, then the model is trained & tested on all 5 splits, and give average results (with standard deviation). 
 
@@ -69,14 +70,15 @@ Here are descriptions of arguments:
 ## DKT (Deep Knowledge Tracing)
 * Paper: https://web.stanford.edu/~cpiech/bio/papers/deepKnowledgeTracing.pdf
 * Model: RNN, LSTM (only LSTM is implemented)
+* GitHub: https://github.com/chrispiech/DeepKnowledgeTracing (Lua)
 * Performances: 
 
 | Dataset          | ACC (%) | AUC (%) | Hyper Parameters |
 |------------------|-----|-----|------------------|
-| ASSISTments2009  | 77.02 ± 0.07 | 81.81 ± 0.1 | input_dim=100, hidden_dim=100 |
+| ASSISTments2009  | 77.02 ± 0.07 | 81.81 ± 0.10 | input_dim=100, hidden_dim=100 |
 | ASSISTments2015  | 74.94 ± 0.04 |  72.94 ± 0.05 | input_dim=100, hidden_dim=100 |
 | ASSISTmentsChall |  68.67 ± 0.09 | 72.29 ± 0.06  | input_dim=100, hidden_dim=100 |
-| STATICS          |  81.27 ± 0.06 | 82.87 ± 0.1   | input_dim=100, hidden_dim=100 |
+| STATICS          |  81.27 ± 0.06 | 82.87 ± 0.10   | input_dim=100, hidden_dim=100 |
 | Junyi Academy    |  85.4   | 80.58    |  input_dim=100, hidden_dim=100  |
 | EdNet-KT1        | 72.72    | 76.99    | input_dim=100, hidden_dim=100  |
 
@@ -85,6 +87,7 @@ Here are descriptions of arguments:
 ## DKVMN (Dynamic Key-Value Memory Network)
 * Paper: http://papers.www2017.com.au.s3-website-ap-southeast-2.amazonaws.com/proceedings/p765.pdf
 * Model: Extension of Memory-Augmented Neural Network (MANN)
+* Github: https://github.com/jennyzhang0215/DKVMN (MxNet)
 * Performances: 
 
 | Dataset          | ACC (%) | AUC (%) | Hyper Parameters |
@@ -116,7 +119,16 @@ Here are descriptions of arguments:
 
 ## SAKT (Self-Attentive Knowledge Tracing) (TODO)
 * Paper: https://files.eric.ed.gov/fulltext/ED599186.pdf
-* Model: Transformer
+* Model: Transformer (1-layer, only encoder with subsequent mask)
+* Github: https://github.com/shalini1194/SAKT (Tensorflow)
 * Performances: 
 
+| Dataset          | ACC (%) | AUC (%) | Hyper Parameters |
+|------------------|-----|-----|------------------|
+| ASSISTments2009  | 76.36 ± 0.15 | 80.78 ± 0.10 |hidden_dim=100, seq_size=100, batch_size=512 |
+| ASSISTments2015  | 74.57 ± 0.07| 71.49 ± 0.03  |hidden_dim=100, seq_size=50, batch_size=512|
+| ASSISTmentsChall | 67.53 ± 0.06  | 69.70 ± 0.32 |hidden_dim=100, seq_size=200, batch_size=512|
+| STATICS          | 80.45 ± 0.13  | 80.30 ± 0.31  |hidden_dim=100, seq_size=500, batch_size=128|
+| Junyi Academy    |  85.27   |  80.36   |hidden_dim=100, seq_size=200, batch_size=512|
+| EdNet-KT1        |  72.44   |  76.60   |hidden_dim=200, seq_size=200, batch_size=512|
 
