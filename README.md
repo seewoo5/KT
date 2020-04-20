@@ -117,7 +117,7 @@ Here are descriptions of arguments:
 
 * All models are trained with batch size 2048 and sequence size 200. 
 
-## SAKT (Self-Attentive Knowledge Tracing) (TODO)
+## SAKT (Self-Attentive Knowledge Tracing)
 * Paper: https://files.eric.ed.gov/fulltext/ED599186.pdf
 * Model: Transformer (1-layer, only encoder with subsequent mask)
 * Github: https://github.com/shalini1194/SAKT (Tensorflow)
