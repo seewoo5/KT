@@ -78,7 +78,7 @@ class SAKTLayer(nn.Module):
         super().__init__()
         self._self_attn = MultiHeadedAttention(num_head, hidden_dim, dropout)
         self._ffn = PositionwiseFeedForward(hidden_dim, hidden_dim, dropout)
-        self._norm = nn.LayerNorm(hidden_dim, eps=1e-6)
+        self._layernorms = clones(nn.LayerNorm(hidden_dim, eps=1e-6), 2)
 
     def forward(self, query, key, mask=None):
         """
@@ -86,10 +86,10 @@ class SAKTLayer(nn.Module):
         key: interaction embeddings
         """
         output = self._self_attn(query=query, key=key, value=key, mask=mask)
-        output = self._norm(key + output)
+        output = self._layernorms[0](key + output)
 
         output = self._ffn(output)
-        output = self._norm(output + self._ffn(output))
+        output = self._layernorms[1](output + self._ffn(output))
         return output
 
 
