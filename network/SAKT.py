@@ -85,10 +85,10 @@ class SAKTLayer(nn.Module):
         query: question embeddings
         key: interaction embeddings
         """
+        # self-attention block
         output = self._self_attn(query=query, key=key, value=key, mask=mask)
         output = self._layernorms[0](key + output)
-
-        output = self._ffn(output)
+        # feed-forward block
         output = self._layernorms[1](output + self._ffn(output))
         return output
 
