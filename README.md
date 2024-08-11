@@ -2,6 +2,8 @@
 
 *Implementations of various Knowledge Tracing models in [PyTorch](https://github.com/pytorch/pytorch)* 
 
+**IMPORTANT NOTE: This repository is now archived, since I'm not working on the area anymore. Consider to use better alternatives such as [pyKT](https://github.com/pykt-team/pykt-toolkit).**
+
 ## Pre-processed Dataset
 * Download Link: https://drive.google.com/file/d/1AOzqCpfxgK271mfYeUEe_sN9Aflszj2u/view?usp=sharing
 * Dataset format: log files are seperated by users. Once you download and unzip each tar.gz file, there's a folder `processed`, and there are 5 subdirectories named from `1` to `5` for cross validation. Each subdirectory has its own train/val/test separation, where test dataset is shared by all 5 separations. Separation ratio are given in the following table. 
